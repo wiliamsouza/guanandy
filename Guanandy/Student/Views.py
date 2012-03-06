@@ -1,8 +1,8 @@
 from PySide import QtCore, QtGui, QtUiTools
 
-from classroom.Broadcast import BroadcastClient
-from classroom.Broadcast.Signals import broadcastSignal
-from classroom.Util import EMPTY_VALUES
+from Guanandy.Broadcast import BroadcastClient
+from Guanandy.Broadcast.Signals import broadcastSignal
+from Guanandy.Util import EMPTY_VALUES
 
 class StudentView(QtGui.QDialog):
     def __init__(self, parent=None):
@@ -10,7 +10,8 @@ class StudentView(QtGui.QDialog):
         super(StudentView, self).__init__(parent)
 
         # Start broadcast client
-        self.broadcastClient = BroadcastClient('255.255.255.255', 255, parent=self)
+        self.broadcastClient = BroadcastClient('255.255.255.255', 255,
+                parent=self)
         self.broadcastClient.start()
 
         # Dialog
@@ -31,8 +32,8 @@ class StudentView(QtGui.QDialog):
         self.label1.setText('Select a teacher name or class name')
         self.gridLayout.addWidget(self.label1, 2, 0, 1, 1)
 
-        self.classroomListView = QtGui.QListView(self)
-        self.gridLayout.addWidget(self.classroomListView, 3, 0, 1, 1)
+        self.teacherListView = QtGui.QListView(self)
+        self.gridLayout.addWidget(self.teacherListView, 3, 0, 1, 1)
 
         self.errorMessage = QtGui.QLabel(self)
         self.errorMessage.setText('Error Message')
@@ -42,18 +43,25 @@ class StudentView(QtGui.QDialog):
 
         self.buttonBox = QtGui.QDialogButtonBox(self)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Ok|QtGui.QDialogButtonBox.Cancel)
+        self.buttonBox.setStandardButtons(
+                QtGui.QDialogButtonBox.Ok|QtGui.QDialogButtonBox.Cancel)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.gridLayout.addWidget(self.buttonBox, 5, 0, 1, 1)
 
         # System tray actions
-        self.loginAction = QtGui.QAction('&Login', self, triggered=self.login)
-        self.logoutAction = QtGui.QAction('&Disconnect from', self, triggered=self.logout)
-        self.callAttentionAction = QtGui.QAction('&Call attention', self, triggered=self.callAttention)
-        self.downloadProgressAction = QtGui.QAction('Download &progress', self, triggered=self.downloadProgress)
-        self.historyAction = QtGui.QAction('&History', self, triggered=self.history)
-        self.aboutAction = QtGui.QAction('&About', self, triggered=self.about)
+        self.loginAction = QtGui.QAction('&Login',
+                self, triggered=self.login)
+        self.logoutAction = QtGui.QAction('&Disconnect from',
+                self, triggered=self.logout)
+        self.callAttentionAction = QtGui.QAction('&Call attention',
+                self, triggered=self.callAttention)
+        self.downloadProgressAction = QtGui.QAction('Download &progress',
+                self, triggered=self.downloadProgress)
+        self.historyAction = QtGui.QAction('&History', self,
+                triggered=self.history)
+        self.aboutAction = QtGui.QAction('&About', self,
+                triggered=self.about)
         self.quitAction = QtGui.QAction('&Quit', self, triggered=self.close)
 
         # System tray menu
