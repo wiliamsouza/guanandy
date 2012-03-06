@@ -4,7 +4,7 @@ import sys
 
 from PySide import QtCore, QtGui
 
-from Classroom.Views.Qt.Student import StudentView
+from Guanandy.Student.Views import StudentView
 
 def start():
 
