@@ -4,7 +4,7 @@ import logging
 
 from PySide import QtCore
 
-from Classroom.Broadcast.Signals import broadcastSignal
+from Guanandy.Broadcast.Signals import broadcastSignal
 
 class BroadcastServer(QtCore.QThread):
 
@@ -63,7 +63,7 @@ class BroadcastClient(QtCore.QThread):
         while self.running:
             try:
                 message, (ip, port) = self.sock.recvfrom(self.datagramSize)
-                broadcastSignal.ClassroomFound.emit(message, ip)
+                broadcastSignal.teacherFound.emit(message, ip)
             except socket.timeout:
                 pass
             time.sleep(1)

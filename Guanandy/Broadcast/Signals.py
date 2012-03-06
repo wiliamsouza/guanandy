@@ -1,6 +1,6 @@
 from PySide import QtCore
 
 class BroadcastSignal(QtCore.QObject):
-    classroomFound = QtCore.Signal(str, str)
+    teacherFound = QtCore.Signal(str, str)
 
 broadcastSignal = BroadcastSignal()
