@@ -4,7 +4,7 @@ import sys
 
 from PySide import QtCore, QtGui
 
-from Classroom.Views.Qt.Teacher import ClassroomView
+from Guanandy.Teacher.Views import TeacherView
 
 def start():
 
@@ -19,9 +19,9 @@ def start():
     #if (translator.load(i18n_file, i18n_path)):
     #    app.installTranslator(translator)
 
-    classroomView = classroomView()
-    classroomView.show()
-    classroomView.login()
+    teacherView = TeacherView()
+    teacherView.show()
+    teacherView.login()
     app.exec_()
 
 
