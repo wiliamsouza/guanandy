@@ -1,14 +1,14 @@
 from PySide import QtCore, QtGui, QtUiTools
 
-from Classroom.Broadcast import BroadcastServer
-from Classroom.Util import EMPTY_VALUES
+from Guanandy.Broadcast import BroadcastServer
+from Guanandy.Util import EMPTY_VALUES
 
 class LoginDialog(QtGui.QDialog):
     def __init__(self, parent=None):
         #QtGui.QDialog.__init__(self, parent)
         super(LoginDialog, self).__init__(parent)
 
-        self.setWindowTitle('Classroom Login')
+        self.setWindowTitle('Teacher Login')
 
         self.gridLayout = QtGui.QGridLayout(self)
 
@@ -17,8 +17,8 @@ class LoginDialog(QtGui.QDialog):
         self.label.setText('Enter your name or class name')
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
 
-        self.classroomName= QtGui.QLineEdit(self)
-        self.gridLayout.addWidget(self.classroomName, 1, 0, 1, 1)
+        self.teacherName= QtGui.QLineEdit(self)
+        self.gridLayout.addWidget(self.teacherName, 1, 0, 1, 1)
 
         self.errorMessage = QtGui.QLabel(self)
         self.errorMessage.setText('Error Message')
@@ -41,8 +41,8 @@ class LoginDialog(QtGui.QDialog):
         pass
 
     def accept(self):
-        """ Validate if classroom name is not empty """
-        if self.classroomName.text() in EMPTY_VALUES:
+        """ Validate if guanandy name is not empty """
+        if self.teacherName.text() in EMPTY_VALUES:
             self.errorMessage.setText('This field is required.')
         else:
             #QtGui.QDialog.accept(self)
@@ -54,7 +54,7 @@ class CloseDialog(QtGui.QDialog):
         #QtGui.QDialog.__init__(self, parent)
         super(CloseDialog, self).__init__(parent)
 
-        self.setWindowTitle('Close ClassRoom')
+        self.setWindowTitle('Close teacher')
 
         self.gridLayout = QtGui.QGridLayout(self)
 
@@ -72,42 +72,42 @@ class CloseDialog(QtGui.QDialog):
         self.gridLayout.addWidget(self.buttonBox, 2, 0, 1, 1)
 
 
-class ClassRoomView(QtGui.QMainWindow):
+class TeacherView(QtGui.QMainWindow):
     def __init__(self, parent=None):
         #QtGui.QMainWindow.__init__(self, parent)
         super(ClassRoomView, self).__init__(parent)
 
-        self.setWindowTitle('ClassRoom Teacher')
+        self.setWindowTitle('Guanandy Teacher')
 
-        self.classroom = QtGui.QWidget(self)
+        self.guanandy = QtGui.QWidget(self)
 
         self.sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding,
                 QtGui.QSizePolicy.Expanding)
         self.sizePolicy.setHorizontalStretch(0)
         self.sizePolicy.setVerticalStretch(0)
         self.sizePolicy.setHeightForWidth(
-                self.classroom.sizePolicy().hasHeightForWidth())
+                self.guanandy.sizePolicy().hasHeightForWidth())
         self.setSizePolicy(self.sizePolicy)
 
-        self.classroomLayout = QtGui.QGridLayout(self.classroom)
+        self.guanandyLayout = QtGui.QGridLayout(self.guanandy)
 
         # Header layout
         self.headerLayout = QtGui.QHBoxLayout()
-        self.classroomLogo = QtGui.QLabel(self.classroom)
-        self.classroomLogo.setText('')
-        self.classroomLogo.setPixmap(
-                QtGui.QPixmap('Images/classroom.png'))
-        self.headerLayout.addWidget(self.classroomLogo)
+        self.guanandyLogo = QtGui.QLabel(self.guanandy)
+        self.guanandyLogo.setText('')
+        self.guanandyLogo.setPixmap(
+                QtGui.QPixmap('Images/guanandy.png'))
+        self.headerLayout.addWidget(self.guanandyLogo)
 
         #self.headerSpacer = QtGui.QSpacerItem(40, 20,
         #        QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         #self.headerLayout.addItem(self.headerSpacer)
 
-        self.classroomLayout.addLayout(self.headerLayout, 0, 0, 1, 1)
+        self.guanandyLayout.addLayout(self.headerLayout, 0, 0, 1, 1)
 
         # Commands layout
         self.commandsLayout = QtGui.QHBoxLayout()
-        self.sendScreenButton = QtGui.QToolButton(self.classroom)
+        self.sendScreenButton = QtGui.QToolButton(self.guanandy)
         self.sendScreenIcon = QtGui.QIcon()
         self.sendScreenIcon.addPixmap(
                 QtGui.QPixmap('Images/sendScreen.png'),
@@ -119,7 +119,7 @@ class ClassRoomView(QtGui.QMainWindow):
         self.sendScreenButton.setText('Send screen')
         self.commandsLayout.addWidget(self.sendScreenButton)
 
-        self.lockScreensButton = QtGui.QToolButton(self.classroom)
+        self.lockScreensButton = QtGui.QToolButton(self.guanandy)
         self.lockScreensIcon = QtGui.QIcon()
         self.lockScreensIcon.addPixmap(
                 QtGui.QPixmap('Images/lockScreens.png'),
@@ -131,7 +131,7 @@ class ClassRoomView(QtGui.QMainWindow):
         self.lockScreensButton.setText('Lock screens')
         self.commandsLayout.addWidget(self.lockScreensButton)
 
-        self.shareFilesButton = QtGui.QToolButton(self.classroom)
+        self.shareFilesButton = QtGui.QToolButton(self.guanandy)
         self.shareFilesIcon = QtGui.QIcon()
         self.shareFilesIcon.addPixmap(
                 QtGui.QPixmap('Images/shareFiles.png'),
@@ -143,7 +143,7 @@ class ClassRoomView(QtGui.QMainWindow):
         self.shareFilesButton.setText('Share files')
         self.commandsLayout.addWidget(self.shareFilesButton)
 
-        self.shareWebPageButton = QtGui.QToolButton(self.classroom)
+        self.shareWebPageButton = QtGui.QToolButton(self.guanandy)
         self.shareWebPageIcon = QtGui.QIcon()
         self.shareWebPageIcon.addPixmap(
                 QtGui.QPixmap('Images/shareWebPage.png'),
@@ -155,7 +155,7 @@ class ClassRoomView(QtGui.QMainWindow):
         self.shareWebPageButton.setText('Share web page')
         self.commandsLayout.addWidget(self.shareWebPageButton)
 
-        self.sendMessageButton = QtGui.QToolButton(self.classroom)
+        self.sendMessageButton = QtGui.QToolButton(self.guanandy)
         self.sendMessageIcon = QtGui.QIcon()
         self.sendMessageIcon.addPixmap(
                 QtGui.QPixmap('Images/sendMessage.png'),
@@ -167,7 +167,7 @@ class ClassRoomView(QtGui.QMainWindow):
         self.sendMessageButton.setText('Send message')
         self.commandsLayout.addWidget(self.sendMessageButton)
 
-        self.openApplicationButton = QtGui.QToolButton(self.classroom)
+        self.openApplicationButton = QtGui.QToolButton(self.guanandy)
         self.openApplicationIcon = QtGui.QIcon()
         self.openApplicationIcon.addPixmap(
                 QtGui.QPixmap('Images/openApplication.png'),
@@ -179,7 +179,7 @@ class ClassRoomView(QtGui.QMainWindow):
         self.openApplicationButton.setText('Open application')
         self.commandsLayout.addWidget(self.openApplicationButton)
 
-        self.turnOffStudentsButton = QtGui.QToolButton(self.classroom)
+        self.turnOffStudentsButton = QtGui.QToolButton(self.guanandy)
         self.turnOffStudentsIcon = QtGui.QIcon()
         self.turnOffStudentsIcon.addPixmap(
                 QtGui.QPixmap('Images/turnOffStudents.png'),
@@ -190,25 +190,25 @@ class ClassRoomView(QtGui.QMainWindow):
                 QtCore.Qt.ToolButtonTextUnderIcon)
         self.turnOffStudentsButton.setText('Turn off students')
         self.commandsLayout.addWidget(self.turnOffStudentsButton)
-        self.classroomLayout.addLayout(self.commandsLayout, 1, 0, 1, 1)
+        self.guanandyLayout.addLayout(self.commandsLayout, 1, 0, 1, 1)
 
         # Students layout
         self.studentsLayout = QtGui.QVBoxLayout()
-        self.studentListView = QtGui.QListView(self.classroom)
+        self.studentListView = QtGui.QListView(self.guanandy)
         self.studentsLayout.addWidget(self.studentListView)
-        self.classroomLayout.addLayout(self.studentsLayout, 3, 0, 1, 1)
+        self.guanandyLayout.addLayout(self.studentsLayout, 3, 0, 1, 1)
 
         # Footer layout
         self.footerLayout = QtGui.QHBoxLayout()
-        self.footerLabel = QtGui.QLabel(self.classroom)
+        self.footerLabel = QtGui.QLabel(self.guanandy)
         self.footerLabel.setText('System version:')
         self.footerLayout.addWidget(self.footerLabel)
 
-        self.systemVersion = QtGui.QLabel(self.classroom)
+        self.systemVersion = QtGui.QLabel(self.guanandy)
         self.systemVersion.setText('0.0-0')
         self.footerLayout.addWidget(self.systemVersion)
 
-        self.historyButton = QtGui.QPushButton(self.classroom)
+        self.historyButton = QtGui.QPushButton(self.guanandy)
         self.historyButton.setText('History')
         self.footerLayout.addWidget(self.historyButton)
 
@@ -216,21 +216,21 @@ class ClassRoomView(QtGui.QMainWindow):
                 QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.footerLayout.addItem(self.footerSpacer)
 
-        self.exitSystemButton = QtGui.QToolButton(self.classroom)
+        self.exitSystemButton = QtGui.QToolButton(self.guanandy)
         self.exitSystemButton.setText('Exit system')
         self.exitSystemButton.clicked.connect(self.close)
         self.footerLayout.addWidget(self.exitSystemButton)
 
-        self.classroomLayout.addLayout(self.footerLayout, 4, 0, 1, 1)
-        self.setCentralWidget(self.classroom)
+        self.guanandyLayout.addLayout(self.footerLayout, 4, 0, 1, 1)
+        self.setCentralWidget(self.guanandy)
 
     def login(self):
         loginDialog = LoginDialog(self)
         if loginDialog.exec_():
-            classroomName = loginDialog.classroomName.text()
+            teacherName = loginDialog.teacherName.text()
             self.broadcastServer = BroadcastServer('255.255.255.255',
                     65535,
-                    classroomName,
+                    teacherName,
                     parent= self)
             self.broadcastServer.start()
 
