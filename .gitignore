@@ -1,0 +1,10 @@
+# globs, anywhere.
+*.pyc
+*.swp
+
+# specific dirs
+#docs/_build
+#dist
+
+# specific files
+#MANIFEST
