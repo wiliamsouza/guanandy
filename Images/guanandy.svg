@@ -10,7 +10,7 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="285"
+   width="250"
    height="48"
    id="svg7324"
    sodipodi:version="0.32"
@@ -553,7 +553,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -561,35 +561,25 @@
      id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer">
-    <rect
-       transform="matrix(0.6650818,0,0,0.6567162,-194.79493,-16.369041)"
-       ry="1.4394537"
-       rx="1.5812495"
-       y="90.8125"
-       x="297"
-       height="4.1875"
-       width="46"
-       id="rect2678"
-       style="opacity:0.06024098;fill:#2e3436;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;filter:url(#filter6655);enable-background:accumulate" />
     <path
        sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccc"
        id="path7115"
-       d="m 26.886655,46.962079 c 0,0 -1.014885,-6.65389 -1.014885,-10.730166 0.02778,-1.859559 14.22416,-16.346025 14.260785,-18.503843 l -3.300452,3.397826 -2.311093,-7.427724 7.791262,0.953727 3.653449,-4.316005 -4.13782,3.588571 -1.423078,-0.38149 -1.746,-7.523088 0.888044,7.332351 -6.448934,-0.38149 2.018256,6.068221 -5.590977,-6.545074 5.913907,9.109929 c 1.48e-4,2.03182 -11.656096,14.435312 -11.636259,12.296587 L 18.968525,26.240408 18.564853,15.885044 22.218302,14.651899 25.418997,5.327991 21.199778,13.945571 17.905906,13.769267 10.532533,6.412619 0.40843666,1.8348034 9.0576567,7.4504681 2.1243507,8.177879 l 9.1336113,0 5.48017,6.474009 0.645833,11.182721 -9.7794518,-11.182721 4.1125008,5.841936 -5.9392217,4.948079 6.5240077,-4.316007 10.320146,15.356587 -0.403671,10.479596 4.668333,0 0,-8e-6 0,0 z"
+       d="m 30.117743,46.962079 c 0,0 -1.014885,-6.65389 -1.014885,-10.730166 0.02778,-1.859559 14.22416,-16.346025 14.260785,-18.503843 l -3.300452,3.397826 -2.311093,-7.427724 7.791262,0.953727 3.653449,-4.316005 -4.13782,3.588571 -1.423078,-0.38149 -1.746,-7.523088 0.888044,7.332351 -6.448934,-0.38149 2.018256,6.068221 -5.590977,-6.545074 5.913907,9.109929 c 1.48e-4,2.03182 -11.656096,14.435312 -11.636259,12.296587 L 22.199613,26.240408 21.795941,15.885044 25.44939,14.651899 28.650085,5.327991 24.430866,13.945571 21.136994,13.769267 13.763621,6.412619 3.6395246,1.8348034 12.288745,7.4504681 5.3554386,8.177879 l 9.1336114,0 5.48017,6.474009 0.645833,11.182721 -9.779452,-11.182721 4.112501,5.841936 -5.9392218,4.948079 6.5240078,-4.316007 10.320146,15.356587 -0.403671,10.479596 4.668333,0 0,-8e-6 0,0 z"
        style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
        inkscape:r_cx="true"
        inkscape:r_cy="true"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-size:49.10367203px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="49.638237"
-       y="37.773087"
+       style="font-size:40.1470871px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="51.629959"
+       y="34.887947"
        id="text3272"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3274"
-         x="49.638237"
-         y="37.773087"
+         x="51.629959"
+         y="34.887947"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans Bold">Guanandy</tspan></text>
   </g>
 </svg>
