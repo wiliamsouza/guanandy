@@ -122,13 +122,13 @@ class TeacherView(QtGui.QMainWindow):
         self.lockScreensButton = QtGui.QToolButton(self.guanandy)
         self.lockScreensIcon = QtGui.QIcon()
         self.lockScreensIcon.addPixmap(
-                QtGui.QPixmap('Images/lockScreens.png'),
+                QtGui.QPixmap('Images/lockScreen.png'),
                 QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.lockScreensButton.setIcon(self.lockScreensIcon)
         self.lockScreensButton.setIconSize(QtCore.QSize(60, 55))
         self.lockScreensButton.setToolButtonStyle(
                 QtCore.Qt.ToolButtonTextUnderIcon)
-        self.lockScreensButton.setText('Lock screens')
+        self.lockScreensButton.setText('Lock screen')
         self.commandsLayout.addWidget(self.lockScreensButton)
 
         self.shareFilesButton = QtGui.QToolButton(self.guanandy)
