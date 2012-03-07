@@ -75,7 +75,7 @@ class CloseDialog(QtGui.QDialog):
 class TeacherView(QtGui.QMainWindow):
     def __init__(self, parent=None):
         #QtGui.QMainWindow.__init__(self, parent)
-        super(ClassRoomView, self).__init__(parent)
+        super(TeacherView, self).__init__(parent)
 
         self.setWindowTitle('Guanandy Teacher')
 
@@ -205,7 +205,7 @@ class TeacherView(QtGui.QMainWindow):
         self.footerLayout.addWidget(self.footerLabel)
 
         self.systemVersion = QtGui.QLabel(self.guanandy)
-        self.systemVersion.setText('0.0-0')
+        self.systemVersion.setText('0.0')
         self.footerLayout.addWidget(self.systemVersion)
 
         self.historyButton = QtGui.QPushButton(self.guanandy)
