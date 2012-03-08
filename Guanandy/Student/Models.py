@@ -13,14 +13,16 @@ class Teacher(QtCore.QObject):
     def __getName(self):
         return str(self.__name)
 
-    def __setName(self, name):
-        self._name = name_
+    def __getIp(self):
+        return str(self.__ip)
 
-    def __str__(self):
-        return  self.__getName
+    def __getPort(self):
+        return str(self.__port)
 
     changed = QtCore.Signal()
-    name = QtCore.Property(unicode, __getName, __setName, notify=changed)
+    name = QtCore.Property(unicode, __getName, notify=changed)
+    ip = QtCore.Property(unicode, __getIp, notify=changed)
+    port = QtCore.Property(unicode, __getPort, notify=changed)
 
 
 class TeacherModel(QtCore.QAbstractListModel):
