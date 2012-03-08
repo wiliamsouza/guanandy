@@ -8,10 +8,12 @@ from Guanandy.Broadcast.Signals import broadcastSignal
 
 class BroadcastServer(QtCore.QThread):
 
-    def __init__(self, ip, port, message, parent=None):
+    def __init__(self, ip, port, teacherName, teacherPort, parent=None):
         QtCore.QThread.__init__(self, parent)
         self.running = False
-        self.message = message
+        self.teacherName = teacherName
+        self.teacherPort = str(teacherPort)
+        self.message = '|'.join((self.teacherName, self.teacherPort))
         self.ip = ip
         self.port = port
 
@@ -22,7 +24,7 @@ class BroadcastServer(QtCore.QThread):
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         try:
-            self.sock.bind(('', 0))
+            self.sock.bind(('', self.port))
         except socket.error, error:
             print 'Socket bind error:', error.message
             print 'Exiting...'
@@ -63,7 +65,8 @@ class BroadcastClient(QtCore.QThread):
         while self.running:
             try:
                 message, (ip, port) = self.sock.recvfrom(self.datagramSize)
-                broadcastSignal.teacherFound.emit(message, ip, port)
+                teacherName, teacherPort = message.split('|')
+                broadcastSignal.teacherFound.emit(teacherName, ip, teacherPort)
             except socket.timeout:
                 pass
             time.sleep(1)

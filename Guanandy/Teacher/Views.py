@@ -5,7 +5,6 @@ from Guanandy.Util import EMPTY_VALUES
 
 class LoginDialog(QtGui.QDialog):
     def __init__(self, parent=None):
-        #QtGui.QDialog.__init__(self, parent)
         super(LoginDialog, self).__init__(parent)
 
         self.setWindowTitle('Teacher Login')
@@ -45,13 +44,11 @@ class LoginDialog(QtGui.QDialog):
         if self.teacherName.text() in EMPTY_VALUES:
             self.errorMessage.setText('This field is required.')
         else:
-            #QtGui.QDialog.accept(self)
             super(LoginDialog, self).accept()
 
 
 class CloseDialog(QtGui.QDialog):
     def __init__(self, parent=None):
-        #QtGui.QDialog.__init__(self, parent)
         super(CloseDialog, self).__init__(parent)
 
         self.setWindowTitle('Close teacher')
@@ -74,7 +71,6 @@ class CloseDialog(QtGui.QDialog):
 
 class TeacherView(QtGui.QMainWindow):
     def __init__(self, parent=None):
-        #QtGui.QMainWindow.__init__(self, parent)
         super(TeacherView, self).__init__(parent)
 
         self.setWindowTitle('Guanandy Teacher')
@@ -246,9 +242,7 @@ class TeacherView(QtGui.QMainWindow):
         if loginDialog.exec_():
             teacherName = loginDialog.teacherName.text()
             self.broadcastServer = BroadcastServer('255.255.255.255',
-                    65535,
-                    teacherName,
-                    parent= self)
+                    65535, teacherName, 65534, parent=self)
             self.broadcastServer.start()
 
     def closeEvent(self, event):
