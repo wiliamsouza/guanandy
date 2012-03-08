@@ -10,8 +10,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="48px"
-   height="48px"
+   width="64"
+   height="64"
    id="svg7826"
    sodipodi:version="0.32"
    inkscape:version="0.48.1 r9760"
@@ -408,7 +408,8 @@
     </linearGradient>
     <filter
        id="filter14190"
-       inkscape:collect="always">
+       inkscape:collect="always"
+       color-interpolation-filters="sRGB">
       <feGaussianBlur
          id="feGaussianBlur14192"
          stdDeviation="0.78891781"
@@ -499,7 +500,7 @@
        xlink:href="#linearGradient8918"
        inkscape:collect="always" />
     <radialGradient
-       r="9.82225"
+       r="9.8222504"
        fy="17.257843"
        fx="25.968998"
        cy="17.257854"
@@ -534,9 +535,9 @@
     <linearGradient
        gradientTransform="matrix(1.1353938,0.382705,-0.3814928,1.1317975,-110.42156,-58.017644)"
        gradientUnits="userSpaceOnUse"
-       y2="25.485421"
+       y2="25.48542"
        x2="142.38217"
-       y1="25.485421"
+       y1="25.48542"
        x1="135.0594"
        id="linearGradient8106"
        xlink:href="#linearGradient8100"
@@ -1091,9 +1092,9 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1.1353938,0.382705,-0.3814928,1.1317975,-109.77486,-5.804749)"
        x1="135.0594"
-       y1="25.485421"
+       y1="25.48542"
        x2="142.38217"
-       y2="25.485421" />
+       y2="25.48542" />
     <radialGradient
        inkscape:collect="always"
        xlink:href="#linearGradient13101"
@@ -1165,7 +1166,7 @@
        cy="17.257854"
        fx="25.968998"
        fy="17.257843"
-       r="9.82225" />
+       r="9.8222504" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient8090"
@@ -1183,9 +1184,9 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1.1353938,0.382705,-0.3814928,1.1317975,-109.77486,-5.804749)"
        x1="135.0594"
-       y1="25.485421"
+       y1="25.48542"
        x2="142.38217"
-       y2="25.485421" />
+       y2="25.48542" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient8115"
@@ -1481,16 +1482,16 @@
      inkscape:pageshadow="2"
      inkscape:zoom="7"
      inkscape:cx="24"
-     inkscape:cy="22.294738"
+     inkscape:cy="28.009024"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="641"
-     inkscape:window-height="688"
-     inkscape:window-x="723"
+     inkscape:window-width="1366"
+     inkscape:window-height="710"
+     inkscape:window-x="0"
      inkscape:window-y="26"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7831">
     <rdf:RDF>
@@ -1499,17 +1500,18 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(0,16)">
     <g
        id="g3629"
-       transform="translate(0.71428571,-53.714286)">
+       transform="matrix(1.3257132,0,0,1.3257132,-0.80081395,-86.800716)">
       <path
          transform="matrix(0.9794558,0,0,0.3529652,13.949785,72.825943)"
          d="m 32.872257,31.563871 c 0,9.021904 -7.313698,16.335602 -16.335602,16.335602 -9.0219033,0 -16.33560138,-7.313698 -16.33560138,-16.335602 0,-9.021903 7.31369808,-16.335601 16.33560138,-16.335601 9.021904,0 16.335602,7.313698 16.335602,16.335601 z"
@@ -1656,7 +1658,7 @@
     </g>
     <g
        id="g3685"
-       transform="matrix(0.78573761,0,0,0.78573761,1.4081491,9.3764215)">
+       transform="matrix(1.0416628,0,0,1.0416628,0.11905002,-3.1605265)">
       <g
          style="display:inline"
          transform="matrix(0.01576018,0,0,0.01463342,38.589091,43.633781)"

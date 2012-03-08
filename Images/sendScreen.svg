@@ -10,8 +10,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="48px"
-   height="48px"
+   width="64"
+   height="64"
    id="svg7771"
    sodipodi:version="0.32"
    inkscape:version="0.48.1 r9760"
@@ -686,9 +686,9 @@
        inkscape:collect="always" />
     <linearGradient
        y2="21.767578"
-       x2="17.880680"
+       x2="17.88068"
        y1="11.072588"
-       x1="17.880680"
+       x1="17.88068"
        gradientTransform="matrix(1.181102,0,0,1.133215,0.1284166,70.618351)"
        gradientUnits="userSpaceOnUse"
        id="linearGradient3487"
@@ -805,9 +805,9 @@
        id="linearGradient2267"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1.181102,0,0,1.133215,-2.996055,16.443673)"
-       x1="17.880680"
+       x1="17.88068"
        y1="11.072588"
-       x2="17.880680"
+       x2="17.88068"
        y2="21.767578" />
     <radialGradient
        inkscape:collect="always"
@@ -879,9 +879,9 @@
        id="linearGradient1989"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1.181102,0,0,1.133215,7.003941,8.44342)"
-       x1="17.880680"
+       x1="17.88068"
        y1="11.072588"
-       x2="17.880680"
+       x2="17.88068"
        y2="21.767578" />
     <radialGradient
        inkscape:collect="always"
@@ -964,18 +964,6 @@
          offset="1"
          style="stop-color:#babdb6;stop-opacity:0;" />
     </linearGradient>
-    <filter
-       inkscape:collect="always"
-       id="filter6655"
-       x="-0.060939956"
-       width="1.1218799"
-       y="-0.66942997"
-       height="2.3388599">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.1680158"
-         id="feGaussianBlur6657" />
-    </filter>
     <linearGradient
        y2="88.849144"
        x2="327.91971"
@@ -997,18 +985,6 @@
          offset="1"
          style="stop-color:#000000;stop-opacity:0;" />
     </linearGradient>
-    <filter
-       height="2.1353755"
-       y="-0.56768775"
-       width="1.2277869"
-       x="-0.11389347"
-       id="filter4768"
-       inkscape:collect="always">
-      <feGaussianBlur
-         id="feGaussianBlur4770"
-         stdDeviation="0.94614625"
-         inkscape:collect="always" />
-    </filter>
     <linearGradient
        y2="93.069283"
        x2="320.28125"
@@ -1326,10 +1302,11 @@
        id="clipPath3519"
        clipPathUnits="userSpaceOnUse">
       <path
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0.3612;stroke-opacity:1;display:inline;enable-background:new"
-         d="M 49.053018,377.91849 C 48.342312,377.99122 47.713462,378.41045 47.372978,379.03851 L 33.092643,405.42136 C 32.920748,405.74568 32.837999,406.09423 32.843749,406.44805 C 32.843921,406.45862 32.843421,406.46859 32.843749,406.47916 L 32.843749,409.46589 L 32.843749,409.77701 L 32.905972,409.77701 C 32.951307,410.03663 33.015025,410.28987 33.154867,410.5237 C 33.54293,411.17259 34.234402,411.57735 34.990466,411.5815 L 255.85342,411.5815 C 256.61879,411.58325 257.33012,411.18224 257.72013,410.5237 C 257.85756,410.29166 257.92585,410.03519 257.96903,409.77701 C 258.01775,409.48565 258.03125,408.90588 258.03125,408.90588 L 258.03125,406.82139 C 258.03125,406.32941 257.99578,405.83393 257.75124,405.39024 L 242.9109,379.0074 C 242.52232,378.32737 241.79626,377.91078 241.01307,377.91849 L 49.270801,377.91849 C 49.198253,377.91482 49.125565,377.91482 49.053018,377.91849 z"
+         style="fill:#000000;fill-opacity:1;stroke:none;display:inline;enable-background:new"
+         d="m 49.053018,377.91849 c -0.710706,0.0727 -1.339556,0.49196 -1.68004,1.12002 l -14.280335,26.38285 c -0.171895,0.32432 -0.254644,0.67287 -0.248894,1.02669 1.72e-4,0.0106 -3.28e-4,0.0205 0,0.0311 l 0,2.98673 0,0.31112 0.06222,0 c 0.04534,0.25962 0.109053,0.51286 0.248895,0.74669 0.388063,0.64889 1.079535,1.05365 1.835599,1.0578 l 220.862957,0 c 0.76537,0.002 1.4767,-0.39926 1.86671,-1.0578 0.13743,-0.23204 0.20572,-0.48851 0.2489,-0.74669 0.0487,-0.29136 0.0622,-0.87113 0.0622,-0.87113 l 0,-2.08449 c 0,-0.49198 -0.0355,-0.98746 -0.28001,-1.43115 L 242.9109,379.0074 c -0.38858,-0.68003 -1.11464,-1.09662 -1.89783,-1.08891 l -191.742269,0 c -0.07255,-0.004 -0.145236,-0.004 -0.217783,0 z"
          id="path3521"
-         sodipodi:nodetypes="cccsccccsccsscsccccc" />
+         sodipodi:nodetypes="cccsccccsccsscsccccc"
+         inkscape:connector-curvature="0" />
     </clipPath>
     <radialGradient
        r="112.59389"
@@ -2182,16 +2159,16 @@
      inkscape:pageshadow="2"
      inkscape:zoom="7"
      inkscape:cx="24"
-     inkscape:cy="24.512315"
+     inkscape:cy="30.226601"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="641"
-     inkscape:window-height="690"
-     inkscape:window-x="242"
-     inkscape:window-y="44"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1366"
+     inkscape:window-height="710"
+     inkscape:window-x="0"
+     inkscape:window-y="26"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7776">
     <rdf:RDF>
@@ -2200,17 +2177,18 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(0,16)">
     <g
        id="g3062"
-       transform="matrix(0.80634023,0,0,0.80634023,0.19365976,-2.3139619)">
+       transform="matrix(1.0973695,0,0,1.0973695,-0.09736952,-19.774298)">
       <g
          transform="translate(-296,-49.999997)"
          id="g10751"
@@ -2363,11 +2341,11 @@
        sodipodi:cy="40.625"
        sodipodi:rx="0.53125"
        sodipodi:ry="0.53125"
-       d="M 19,40.625 A 0.53125,0.53125 0 1 1 17.9375,40.625 A 0.53125,0.53125 0 1 1 19,40.625 z"
-       transform="matrix(1.4117647,0,0,1.4117647,-6.5735287,-15.352919)" />
+       d="m 19,40.625 a 0.53125,0.53125 0 1 1 -1.0625,0 0.53125,0.53125 0 1 1 1.0625,0 z"
+       transform="matrix(1.9213075,0,0,1.9213075,-9.3070134,-37.519356)" />
     <g
        id="g3062-2"
-       transform="matrix(0.80634023,0,0,0.80634023,8.647834,17.034263)">
+       transform="matrix(1.0973695,0,0,1.0973695,11.408138,6.5572075)">
       <g
          transform="translate(-296,-49.999997)"
          id="g10751-6"
@@ -2514,7 +2492,7 @@
     </g>
     <g
        id="g3503"
-       transform="matrix(-1.1073713,-0.08862758,-0.08862758,1.1073713,71.877325,-49.436945)">
+       transform="matrix(-1.5070506,-0.12061559,-0.12061559,1.5070506,97.458807,-83.905199)">
       <path
          sodipodi:nodetypes="ccccccc"
          style="fill:url(#linearGradient4191);fill-opacity:1;fill-rule:evenodd;stroke:url(#linearGradient4193);stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible"
