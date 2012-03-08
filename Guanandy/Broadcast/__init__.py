@@ -53,7 +53,7 @@ class BroadcastClient(QtCore.QThread):
         self.sock.settimeout(1)
 
         try:
-            self.sock.bind(('', 0))
+            self.sock.bind(('', self.port))
         except socket.error, error:
             print 'Socket bind error:', error.message
             print 'Exiting...'
@@ -63,7 +63,7 @@ class BroadcastClient(QtCore.QThread):
         while self.running:
             try:
                 message, (ip, port) = self.sock.recvfrom(self.datagramSize)
-                broadcastSignal.teacherFound.emit(message, ip)
+                broadcastSignal.teacherFound.emit(message, ip, port)
             except socket.timeout:
                 pass
             time.sleep(1)
