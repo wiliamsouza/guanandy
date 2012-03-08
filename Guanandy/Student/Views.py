@@ -1,17 +1,17 @@
 from PySide import QtCore, QtGui, QtUiTools
 
+from Guanandy.Student.Models import TeacherModel
 from Guanandy.Broadcast import BroadcastClient
-from Guanandy.Broadcast.Signals import broadcastSignal
 from Guanandy.Util import EMPTY_VALUES
 
-class StudentView(QtGui.QDialog):
+
+class StudentView(QtGui.QWidget):
+
     def __init__(self, parent=None):
-        #QtGui.QDialog.__init__(self, parent)
         super(StudentView, self).__init__(parent)
 
         # Start broadcast client
-        self.broadcastClient = BroadcastClient('255.255.255.255', 255,
-                parent=self)
+        self.broadcastClient = BroadcastClient(65535, 255, parent=self)
         self.broadcastClient.start()
 
         # Dialog
@@ -32,7 +32,11 @@ class StudentView(QtGui.QDialog):
         self.label1.setText('Select a teacher name or class name')
         self.gridLayout.addWidget(self.label1, 2, 0, 1, 1)
 
+        # Model
+        teacherModel = TeacherModel(self)
+
         self.teacherListView = QtGui.QListView(self)
+        self.teacherListView.setModel(teacherModel)
         self.gridLayout.addWidget(self.teacherListView, 3, 0, 1, 1)
 
         self.errorMessage = QtGui.QLabel(self)
@@ -79,6 +83,9 @@ class StudentView(QtGui.QDialog):
 
         self.sysTrayIcon = QtGui.QSystemTrayIcon(self)
         self.sysTrayIcon.setContextMenu(self.trayIconMenu)
+        self.icon = QtGui.QIcon('Images/teacher22x22.png')
+        self.sysTrayIcon.setIcon(self.icon)
+        self.sysTrayIcon.setToolTip('Student')
         self.sysTrayIcon.show()
 
     def login(self):
@@ -100,7 +107,6 @@ class StudentView(QtGui.QDialog):
         pass
 
     def close(self):
-        #if not self.isVisible():
         self.sysTrayIcon.hide()
         super(StudentView, self).close()
 
@@ -122,6 +128,5 @@ class StudentView(QtGui.QDialog):
         """ Validate if classroom name is not empty """
         if self.studentName.text() in EMPTY_VALUES:
             self.errorMessage.setText('This field is required.')
-        else:
-            #QtGui.QDialog.accept(self)
-            super(StudentView, self).accept()
+        #else:
+        #    super(StudentView, self).accept()
