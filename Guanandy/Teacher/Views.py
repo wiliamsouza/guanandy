@@ -96,7 +96,7 @@ class TeacherView(QtGui.QMainWindow):
         self.guanandyLogo = QtGui.QLabel(self.guanandy)
         self.guanandyLogo.setText('')
         self.guanandyLogo.setPixmap(
-                QtGui.QPixmap('Images/guanandy.png'))
+                QtGui.QPixmap('Images/guanandy32x180.png'))
         self.headerLayout.addWidget(self.guanandyLogo)
 
         #self.headerSpacer = QtGui.QSpacerItem(40, 20,
@@ -113,7 +113,7 @@ class TeacherView(QtGui.QMainWindow):
                 QtGui.QPixmap('Images/sendScreen.png'),
                 QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.sendScreenButton.setIcon(self.sendScreenIcon)
-        self.sendScreenButton.setIconSize(QtCore.QSize(60, 55))
+        self.sendScreenButton.setIconSize(QtCore.QSize(64, 64))
         self.sendScreenButton.setToolButtonStyle(
                 QtCore.Qt.ToolButtonTextUnderIcon)
         self.sendScreenButton.setText('Send screen')
@@ -125,7 +125,7 @@ class TeacherView(QtGui.QMainWindow):
                 QtGui.QPixmap('Images/lockScreen.png'),
                 QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.lockScreensButton.setIcon(self.lockScreensIcon)
-        self.lockScreensButton.setIconSize(QtCore.QSize(60, 55))
+        self.lockScreensButton.setIconSize(QtCore.QSize(64, 64))
         self.lockScreensButton.setToolButtonStyle(
                 QtCore.Qt.ToolButtonTextUnderIcon)
         self.lockScreensButton.setText('Lock screen')
@@ -137,7 +137,7 @@ class TeacherView(QtGui.QMainWindow):
                 QtGui.QPixmap('Images/shareFiles.png'),
                 QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.shareFilesButton.setIcon(self.shareFilesIcon)
-        self.shareFilesButton.setIconSize(QtCore.QSize(60, 55))
+        self.shareFilesButton.setIconSize(QtCore.QSize(64, 64))
         self.shareFilesButton.setToolButtonStyle(
                 QtCore.Qt.ToolButtonTextUnderIcon)
         self.shareFilesButton.setText('Share files')
@@ -149,7 +149,7 @@ class TeacherView(QtGui.QMainWindow):
                 QtGui.QPixmap('Images/shareWebPage.png'),
                 QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.shareWebPageButton.setIcon(self.shareWebPageIcon)
-        self.shareWebPageButton.setIconSize(QtCore.QSize(60, 55))
+        self.shareWebPageButton.setIconSize(QtCore.QSize(64, 64))
         self.shareWebPageButton.setToolButtonStyle(
                 QtCore.Qt.ToolButtonTextUnderIcon)
         self.shareWebPageButton.setText('Share web page')
@@ -161,7 +161,7 @@ class TeacherView(QtGui.QMainWindow):
                 QtGui.QPixmap('Images/sendMessage.png'),
                 QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.sendMessageButton.setIcon(self.sendMessageIcon)
-        self.sendMessageButton.setIconSize(QtCore.QSize(60, 55))
+        self.sendMessageButton.setIconSize(QtCore.QSize(64, 64))
         self.sendMessageButton.setToolButtonStyle(
                 QtCore.Qt.ToolButtonTextUnderIcon)
         self.sendMessageButton.setText('Send message')
@@ -173,7 +173,7 @@ class TeacherView(QtGui.QMainWindow):
                 QtGui.QPixmap('Images/openApplication.png'),
                 QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.openApplicationButton.setIcon(self.openApplicationIcon)
-        self.openApplicationButton.setIconSize(QtCore.QSize(60, 55))
+        self.openApplicationButton.setIconSize(QtCore.QSize(64, 64))
         self.openApplicationButton.setToolButtonStyle(
                 QtCore.Qt.ToolButtonTextUnderIcon)
         self.openApplicationButton.setText('Open application')
@@ -185,7 +185,7 @@ class TeacherView(QtGui.QMainWindow):
                 QtGui.QPixmap('Images/turnOffStudents.png'),
                 QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.turnOffStudentsButton.setIcon(self.turnOffStudentsIcon)
-        self.turnOffStudentsButton.setIconSize(QtCore.QSize(60, 55))
+        self.turnOffStudentsButton.setIconSize(QtCore.QSize(64, 64))
         self.turnOffStudentsButton.setToolButtonStyle(
                 QtCore.Qt.ToolButtonTextUnderIcon)
         self.turnOffStudentsButton.setText('Turn off students')
@@ -200,24 +200,41 @@ class TeacherView(QtGui.QMainWindow):
 
         # Footer layout
         self.footerLayout = QtGui.QHBoxLayout()
-        self.footerLabel = QtGui.QLabel(self.guanandy)
-        self.footerLabel.setText('System version:')
-        self.footerLayout.addWidget(self.footerLabel)
 
-        self.systemVersion = QtGui.QLabel(self.guanandy)
-        self.systemVersion.setText('0.0')
-        self.footerLayout.addWidget(self.systemVersion)
-
-        self.historyButton = QtGui.QPushButton(self.guanandy)
+        self.historyButton = QtGui.QToolButton(self.guanandy)
+        self.historyIcon = QtGui.QIcon()
+        self.historyIcon.addPixmap(
+                QtGui.QPixmap('Images/history.png'),
+                QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.historyButton.setIcon(self.historyIcon)
+        self.historyButton.setIconSize(QtCore.QSize(32, 32))
+        self.historyButton.setToolButtonStyle(
+                QtCore.Qt.ToolButtonTextBesideIcon)
         self.historyButton.setText('History')
         self.footerLayout.addWidget(self.historyButton)
 
-        self.footerSpacer = QtGui.QSpacerItem(40, 20,
+        self.footerLabel = QtGui.QLabel(self.guanandy)
+        self.footerLabel.setText('Version:')
+        self.footerLayout.addWidget(self.footerLabel)
+
+        self.systemVersion = QtGui.QLabel(self.guanandy)
+        self.systemVersion.setText('2.0')
+        self.footerLayout.addWidget(self.systemVersion)
+
+        self.footerSpacer = QtGui.QSpacerItem(32, 32,
                 QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.footerLayout.addItem(self.footerSpacer)
 
         self.exitSystemButton = QtGui.QToolButton(self.guanandy)
-        self.exitSystemButton.setText('Exit system')
+        self.exitSystemIcon = QtGui.QIcon()
+        self.exitSystemIcon.addPixmap(
+                QtGui.QPixmap('Images/exit.png'),
+                QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.exitSystemButton.setIcon(self.exitSystemIcon)
+        self.exitSystemButton.setIconSize(QtCore.QSize(32, 32))
+        self.exitSystemButton.setToolButtonStyle(
+                QtCore.Qt.ToolButtonTextBesideIcon)
+        self.exitSystemButton.setText('Exit')
         self.exitSystemButton.clicked.connect(self.close)
         self.footerLayout.addWidget(self.exitSystemButton)
 
