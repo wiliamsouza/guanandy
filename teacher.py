@@ -10,6 +10,9 @@ def start():
 
     app = QtGui.QApplication(sys.argv)
 
+    icon = QtGui.QIcon('Images/teacher.svg')
+    app.setWindowIcon(icon)
+
     #locale = QtCore.QLocale.system()
     #translator = QtCore.QTranslator()
 

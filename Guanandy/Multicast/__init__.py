@@ -18,8 +18,13 @@ class MulticastServer(QtCore.QThread):
         self.running = True
         self.context = zmq.Context()
         self.publisher = self.context.socket(zmq.PUB)
+
         # Setting rate limit to 1Mbps
         #self.publisher.setsockopt(zmq.RATE, 1000)
+
+        # Discard unsent messages on close
+        #self.publisher.setsockopt(zmq.LINGER, 0)
+
         self.publisher.bind(self.endpoint)
 
         self.f = open(file_path, 'rb')

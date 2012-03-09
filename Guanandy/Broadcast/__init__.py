@@ -6,6 +6,8 @@ from PySide import QtCore
 
 from Guanandy.Broadcast.Signals import broadcastSignal
 
+# TODO: may be implement time.sleep(random.randint(1, 5))
+
 class BroadcastServer(QtCore.QThread):
 
     def __init__(self, ip, port, teacherName, teacherPort, parent=None):
@@ -39,6 +41,7 @@ class BroadcastServer(QtCore.QThread):
         self.running = False
         self.wait()
         self.exit()
+
 
 class BroadcastClient(QtCore.QThread):
 
