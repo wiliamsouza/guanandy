@@ -10,15 +10,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="64"
-   height="64"
+   width="128"
+   height="128"
    id="svg8025"
    sodipodi:version="0.32"
    inkscape:version="0.48.1 r9760"
    sodipodi:docname="teacher.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.1"
-   inkscape:export-filename="/home/wiliam/devel/guanandy/Images/teachers64x64.png"
+   inkscape:export-filename="/home/wiliam/devel/guanandy/Images/teachers128x128.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -1202,9 +1202,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4.3012821"
-     inkscape:cx="3.2270038"
-     inkscape:cy="37.150032"
+     inkscape:zoom="3.4895434"
+     inkscape:cx="22.355555"
+     inkscape:cy="63.571933"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -1230,10 +1230,10 @@
      id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     transform="translate(0,16)">
+     transform="translate(0,80)">
     <g
        id="g3205"
-       transform="matrix(4.0431587,0,0,4.0431587,-0.24939199,-145.41963)">
+       transform="matrix(8.0547872,0,0,8.0547872,-0.24729008,-337.89851)">
       <rect
          style="opacity:0.4;fill:url(#linearGradient3250);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible"
          id="rect2879"
