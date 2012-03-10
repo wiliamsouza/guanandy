@@ -1,5 +1,5 @@
 VERSION = (0, 1,)
 
-def get_version():
+def getVersion():
     version = '%s.%s' % (VERSION[0], VERSION[1])
     return version

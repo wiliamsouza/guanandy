@@ -2,6 +2,7 @@ from PySide import QtCore, QtGui, QtUiTools
 
 from Guanandy.Broadcast import BroadcastServer
 from Guanandy.Util import EMPTY_VALUES
+from Guanandy import getVersion
 
 class LoginDialog(QtGui.QDialog):
     def __init__(self, parent=None):
@@ -214,7 +215,7 @@ class TeacherView(QtGui.QMainWindow):
         self.footerLayout.addWidget(self.footerLabel)
 
         self.systemVersion = QtGui.QLabel(self.guanandy)
-        self.systemVersion.setText('2.0')
+        self.systemVersion.setText(getVersion())
         self.footerLayout.addWidget(self.systemVersion)
 
         self.footerSpacer = QtGui.QSpacerItem(32, 32,

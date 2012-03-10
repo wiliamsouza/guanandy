@@ -3,7 +3,7 @@ import glob
 
 from distutils.core import setup
 
-from Guanandy import get_version
+from Guanandy import getVersion
 
 packages, other_files = [], [],
 root_dir = os.path.dirname(__file__)
@@ -27,22 +27,15 @@ for dirpath, dirnames, filenames in os.walk('Guanandy/'):
             data_fullpath.append(full)
     other_files.extend(zip(data_dirpath, [data_fullpath]))
 
-data_files = []
-"""
-    ('/usr/bin/', glob.glob('bin/mcc2*')),
-    ('/usr/share/mandriva/bin/', glob.glob('bin/*-mechanism.py')),
-    ('/usr/share/dbus-1/system-services/', glob.glob('dbus/*.service')),
-    ('/etc/dbus-1/system.d/', glob.glob('dbus/*.conf')),
-    ('/usr/share/polkit-1/actions/', glob.glob('policykit/*.policy')),
-    ('/usr/share/mandriva/config', glob.glob('config/*.cfg')),
-    ('/usr/share/applications/kde4/', glob.glob('kcm/mcc2-*.desktop')),
-    ('/usr/share/kde4/services/', glob.glob('kcm/settings-*.desktop')),
-    ('/usr/share/apps/mandriva-control-center/', glob.glob('kcm/*.py')),]
-"""
+data_files = [
+    ('', glob.glob('teacher.py')),
+    ('', glob.glob('student.py')),
+    ]
+
 data_files.extend(other_files)
 
 setup(name='guanandy',
-    version=get_version().replace(' ', '-'),
+    version=getVersion().replace(' ', '-'),
     description='Guanandy',
     author='Wiliam Souza',
     author_email='wiliamsouza83@gmail.com',
