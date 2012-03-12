@@ -1,5 +1,4 @@
 import os
-import hashlib
 
 import zmq
 
@@ -73,11 +72,10 @@ class Subscriber(QtCore.QThread):
         self.wait()
         self.exit()
 
-
-class Client(QtCore.QThread):
+class Request(QtCore.QThread):
 
     def __init__(self, ip, port, parent=None):
-        super(Client, self).__init__(parent)
+        super(Request, self).__init__(parent)
         self.running = False
         self.uri = 'tcp://%s:%s' % (ip, port)
         self.message = None
@@ -111,7 +109,7 @@ class Client(QtCore.QThread):
         self.exit()
 
 
-class Server(QtCore.QThread):
+class Reply(QtCore.QThread):
 
     def __init__(self, ip, port, parent=None):
         super(Server, self).__init__(parent)
