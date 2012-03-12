@@ -36,6 +36,7 @@ class StudentView(QtGui.QWidget):
         teacherModel = TeacherModel(self)
 
         self.teacherListView = QtGui.QListView(self)
+        #self.teacherListView = QtGui.QTreeView(self)
         self.teacherListView.setModel(teacherModel)
         self.gridLayout.addWidget(self.teacherListView, 3, 0, 1, 1)
 
@@ -49,8 +50,8 @@ class StudentView(QtGui.QWidget):
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(
                 QtGui.QDialogButtonBox.Ok|QtGui.QDialogButtonBox.Cancel)
-        self.buttonBox.accepted.connect(self.accept)
-        self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.accepted.connect(self.connect)
+        self.buttonBox.rejected.connect(self.hide)
         self.gridLayout.addWidget(self.buttonBox, 5, 0, 1, 1)
 
         # System tray actions
@@ -111,7 +112,13 @@ class StudentView(QtGui.QWidget):
         super(StudentView, self).close()
 
     def closeEvent(self, event):
-        """ To prevent the X button from close this dialog """
+        """ To prevent the window X button from close the application
+        
+        The closing event will be accepted only when fired from systray
+        quit button.
+
+        """
+
         if self.sysTrayIcon.isVisible():
             self.hide()
             event.ignore()
@@ -120,13 +127,17 @@ class StudentView(QtGui.QWidget):
             QtGui.qApp.setQuitOnLastWindowClosed(True)
             event.accept()
 
-    def reject(self):
-        """ To prevent the ESC key from close this dialog """
-        self.hide()
-
-    def accept(self):
-        """ Validate if classroom name is not empty """
+    def connect(self):
         if self.studentName.text() in EMPTY_VALUES:
             self.errorMessage.setText('This field is required.')
-        #else:
-        #    super(StudentView, self).accept()
+            return
+
+        # Get the current selected teacher or classroom
+        teacherModel =  self.teacherListView.currentIndex()
+        teacher =  teacherModel.data(role=1111)
+
+        if not teacher:
+            self.errorMessage.setText('You must select at least one teacher.')
+        else:
+            print teacher.name, teacher.ip, teacher.port
+            self.hide()
