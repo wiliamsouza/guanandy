@@ -35,9 +35,16 @@ class TeacherModel(QtCore.QAbstractListModel):
     def rowCount(self, parent=QtCore.QModelIndex()):
         return len(self.__teachers)
 
-    def data(self, index, role):
+    def data(self, index, role=QtCore.Qt.DisplayRole):
+
+        # This role return teacher or classroom name
         if index.isValid() and role == QtCore.Qt.DisplayRole:
             return self.__teachers[index.row()].name
+
+        # This role return teacher or classroom object instance
+        if index.isValid() and role == 1111:
+            return self.__teachers[index.row()]
+
         return None
 
     def add(self, name, ip, port):
