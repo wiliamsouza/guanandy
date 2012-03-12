@@ -34,7 +34,11 @@ class BroadcastServer(QtCore.QThread):
             self.exit()
 
         while self.running:
-            self.sock.sendto(self.message, (self.ip, self.port))
+            try:
+                self.sock.sendto(self.message, (self.ip, self.port))
+            except socket.error, error:
+                print error
+                continue
             time.sleep(1)
 
     def stop(self):
