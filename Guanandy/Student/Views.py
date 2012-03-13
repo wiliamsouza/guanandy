@@ -1,8 +1,10 @@
 from PySide import QtCore, QtGui, QtUiTools
 
+from Guanandy.Protocol.Signals import protocolSignal
 from Guanandy.Student.Models import TeacherModel
 from Guanandy.Broadcast import BroadcastClient
 from Guanandy.Util import EMPTY_VALUES
+from Guanandy import Controller
 
 
 class StudentView(QtGui.QWidget):
@@ -13,6 +15,9 @@ class StudentView(QtGui.QWidget):
         # Start broadcast client
         self.broadcastClient = BroadcastClient(65535, 255, parent=self)
         self.broadcastClient.start()
+
+        self.subscriber = None
+        self.request = None
 
         # Dialog
         self.setWindowTitle('Student Login')
@@ -96,7 +101,7 @@ class StudentView(QtGui.QWidget):
         pass
 
     def callAttention(self):
-        pass
+        protocolSignal.callAttention.emit()
 
     def downloadProgress(self):
         pass
@@ -113,17 +118,18 @@ class StudentView(QtGui.QWidget):
 
     def closeEvent(self, event):
         """ To prevent the window X button from close the application
-        
+
         The closing event will be accepted only when fired from systray
         quit button.
 
         """
-
         if self.sysTrayIcon.isVisible():
             self.hide()
             event.ignore()
         else:
             self.broadcastClient.stop()
+            self.subscriber.stop()
+            self.request.stop()
             QtGui.qApp.setQuitOnLastWindowClosed(True)
             event.accept()
 
@@ -139,5 +145,10 @@ class StudentView(QtGui.QWidget):
         if not teacher:
             self.errorMessage.setText('You must select at least one teacher.')
         else:
-            print teacher.name, teacher.ip, teacher.port
+            self.subscriber = Controller.Subscriber(teacher.ip, teacher.port, self.studentName.text())
+            self.subscriber.start()
+
+            self.request = Controller.Request(teacher.ip, 65533)
+            self.request.start()
+
             self.hide()
