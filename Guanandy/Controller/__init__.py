@@ -4,6 +4,9 @@ import zmq
 
 from PySide import QtCore
 
+from Guanandy.Protocol.Signals import protocolSignal
+from Guanandy import Protocol
+
 
 class Publisher(QtCore.QThread):
 
@@ -60,7 +63,7 @@ class Subscriber(QtCore.QThread):
         self.context = zmq.Context()
         self.subscriber = self.context.socket(zmq.SUB)
         self.subscriber.connect(self.uri)
-        self.subscriber.setsockopt(zmq.SUBSCRIBE, self.name)
+        self.subscriber.setsockopt_unicode(zmq.SUBSCRIBE, self.name)
 
         while self.running:
             self.message = self.subscriber.recv()
@@ -72,6 +75,7 @@ class Subscriber(QtCore.QThread):
         self.wait()
         self.exit()
 
+
 class Request(QtCore.QThread):
 
     def __init__(self, ip, port, parent=None):
@@ -79,6 +83,7 @@ class Request(QtCore.QThread):
         self.running = False
         self.uri = 'tcp://%s:%s' % (ip, port)
         self.message = None
+        protocolSignal.callAttention.connect(self.callAttention)
 
     def run(self):
         print 'starting'
@@ -91,12 +96,15 @@ class Request(QtCore.QThread):
         while self.running:
             if self.message:
                 print 'Sending: ', self.message
-                self.request.send(self.message)
+                self.request.send_json(self.message)
 
                 print 'Waiting response...'
-                self.response = self.request.recv()
+                self.response = self.request.recv_json()
                 print 'Received response: ', self.response
                 self.message = None
+
+    def callAttention(self):
+        self.send(Protocol.callAttention)
 
     def send(self, message):
         self.message = message
@@ -112,7 +120,7 @@ class Request(QtCore.QThread):
 class Reply(QtCore.QThread):
 
     def __init__(self, ip, port, parent=None):
-        super(Server, self).__init__(parent)
+        super(Reply, self).__init__(parent)
         self.running = False
         self.uri = 'tcp://%s:%s' % (ip, port)
 
@@ -122,13 +130,19 @@ class Reply(QtCore.QThread):
         self.response = self.context.socket(zmq.REP)
         self.response.bind(self.uri)
 
-        msg = ''
+        msg = {'action': 'OK', 'args': []} 
         while self.running:
             print 'Waiting request...'
-            self.request = self.response.recv()
+            self.request = self.response.recv_json()
             print 'Received: ', self.request
+
+            try:
+                getattr(protocolSignal, self.request['action']).emit()
+            except AttributeError, error:
+                msg = {'action': 'ERROR', 'args': []}
+
             print 'Sending: ', msg
-            self.reponse.send(msg)
+            self.response.send_json(msg)
 
     def stop(self):
         self.running = False
