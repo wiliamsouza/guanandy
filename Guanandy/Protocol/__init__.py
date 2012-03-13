@@ -1,3 +1,6 @@
+callAttention = {'action': 'callAttention',
+                 'args': [],
+                }
 
 openApplication = {'action': 'openApplication',
                    'args': [],
