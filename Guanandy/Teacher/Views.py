@@ -1,8 +1,11 @@
 from PySide import QtCore, QtGui, QtUiTools
 
+from Guanandy.Protocol.Signals import protocolSignal
 from Guanandy.Broadcast import BroadcastServer
 from Guanandy.Util import EMPTY_VALUES
+from Guanandy import Controller
 from Guanandy import getVersion
+
 
 class LoginDialog(QtGui.QDialog):
     def __init__(self, parent=None):
@@ -17,11 +20,11 @@ class LoginDialog(QtGui.QDialog):
         self.label.setText('Enter your name or class name')
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
 
-        self.teacherName= QtGui.QLineEdit(self)
+        self.teacherName = QtGui.QLineEdit(self)
+        self.teacherName.insert('Prof. Raimundo')
         self.gridLayout.addWidget(self.teacherName, 1, 0, 1, 1)
 
         self.errorMessage = QtGui.QLabel(self)
-        self.errorMessage.setText('Error Message')
         self.errorMessage.clear()
         self.errorMessage.setAlignment(QtCore.Qt.AlignCenter)
         self.gridLayout.addWidget(self.errorMessage, 2, 0, 1, 1)
@@ -41,7 +44,7 @@ class LoginDialog(QtGui.QDialog):
         pass
 
     def accept(self):
-        """ Validate if guanandy name is not empty """
+        """ Validate if teacher or classroom name is not empty """
         if self.teacherName.text() in EMPTY_VALUES:
             self.errorMessage.setText('This field is required.')
         else:
@@ -73,6 +76,12 @@ class CloseDialog(QtGui.QDialog):
 class TeacherView(QtGui.QMainWindow):
     def __init__(self, parent=None):
         super(TeacherView, self).__init__(parent)
+
+        self.broadcastServer = None
+        self.publisher = None
+        self.reply = None
+
+        protocolSignal.callAttention.connect(self.showMessage)
 
         self.setWindowTitle('Guanandy Teacher')
 
@@ -246,10 +255,24 @@ class TeacherView(QtGui.QMainWindow):
                     65535, teacherName, 65534, parent=self)
             self.broadcastServer.start()
 
+            self.publisher = Controller.Publisher('192.168.1.4', 65534)
+            self.publisher.start()
+
+            self.reply = Controller.Reply('192.168.1.4', 65533)
+            self.reply.start()
+
+    def showMessage(self):
+        print 'Student call attetion!'
+        #icon = QtGui.QSystemTrayIcon.MessageIcon(self.style().standardIcon(QtGui.QStyle.SP_MessageBoxInformation),
+        #        'Information', QtGui.QSystemTrayIcon.Information)
+        #self.trayIcon.showMessage('Bla', 'Student call attention', icon, 1000)
+
     def closeEvent(self, event):
         closeDialog = CloseDialog(self)
         if closeDialog.exec_():
             self.broadcastServer.stop()
+            self.publisher.stop()
+            self.reply.stop()
             event.accept()
         else:
             closeDialog.reject()
