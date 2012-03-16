@@ -1,4 +1,6 @@
 import os
+import time
+import logging
 
 import zmq
 
@@ -6,6 +8,8 @@ from PySide import QtCore
 
 from Guanandy.Protocol.Signals import protocolSignal
 from Guanandy import Protocol
+
+logger = logging.getLogger(__name__)
 
 
 class Publisher(QtCore.QThread):
@@ -19,6 +23,7 @@ class Publisher(QtCore.QThread):
         self.uri = 'tcp://%s:%s' % (ip, port)
 
     def run(self):
+        logger.info('Starting publisher on: %s' % self.uri)
         self.running = True
         self.context = zmq.Context()
         self.publisher = self.context.socket(zmq.PUB)
@@ -29,17 +34,24 @@ class Publisher(QtCore.QThread):
         # Discard unsent messages on close
         #self.publisher.setsockopt(zmq.LINGER, 0)
 
-        self.publisher.bind(self.uri)
+        try:
+            self.publisher.bind(self.uri)
+        except:
+            logger.critical('Publisher bind error: %s' % error)
+            self.stop()
 
         while self.running:
             if self.message:
                 self.publisher.send(self.message)
+                logger.debug('Publisher message sent: %s' % self.message)
                 self.message = None
+            time.sleep(1)
 
     def send(message):
         self.message = message
 
     def stop(self):
+        logger.info('Stopping publisher')
         self.running = False
         self.publisher.close()
         self.context.term()
@@ -59,16 +71,24 @@ class Subscriber(QtCore.QThread):
         self.uri = 'tcp://%s:%s' % (ip, port)
 
     def run(self):
+        logger.info('Starting subscriber on: %s' % self.uri)
         self.running = True
         self.context = zmq.Context()
         self.subscriber = self.context.socket(zmq.SUB)
-        self.subscriber.connect(self.uri)
+
+        try:
+            self.subscriber.connect(self.uri)
+        except:
+            logger.critical('Subscriber connect error: %s' % error)
+
         self.subscriber.setsockopt_unicode(zmq.SUBSCRIBE, self.name)
 
         while self.running:
             self.message = self.subscriber.recv()
+            time.sleep(1)
 
     def stop(self):
+        logger.info('Stopping subscriber')
         self.running = False
         self.subscriber.close()
         self.context.term()
@@ -86,22 +106,30 @@ class Request(QtCore.QThread):
         protocolSignal.callAttention.connect(self.callAttention)
 
     def run(self):
-        print 'starting'
+        logger.info('Starting request on: %s' % self.uri)
         self.running = True
 
         self.context = zmq.Context()
         self.request = self.context.socket(zmq.REQ)
-        self.request.connect(self.uri)
+
+        try:
+            self.request.connect(self.uri)
+        except:
+            logger.critical('Request connect error: %s' % error)
+
 
         while self.running:
             if self.message:
-                print 'Sending: ', self.message
+                logger.debug('Request sending: %s' % self.message)
                 self.request.send_json(self.message)
 
-                print 'Waiting response...'
+                logger.debug('Request waiting response...')
                 self.response = self.request.recv_json()
-                print 'Received response: ', self.response
+
+                logger.debug('Request received response: %s' % self.response)
                 self.message = None
+
+            time.sleep(1)
 
     def callAttention(self):
         self.send(Protocol.callAttention)
@@ -110,6 +138,7 @@ class Request(QtCore.QThread):
         self.message = message
 
     def stop(self):
+        logger.info('Stopping request')
         self.running = False
         self.request.close()
         self.context.term()
@@ -125,28 +154,35 @@ class Reply(QtCore.QThread):
         self.uri = 'tcp://%s:%s' % (ip, port)
 
     def run(self):
+        logger.info('Starting reply on: %s' % self.uri)
         self.running = True
         self.context = zmq.Context()
         self.response = self.context.socket(zmq.REP)
-        self.response.bind(self.uri)
 
-        msg = {'action': 'OK', 'args': []} 
+        try:
+            self.response.bind(self.uri)
+        except:
+            logger.critical('Reply bind error: %s' % error)
+
+        msg = {'action': 'OK', 'args': []}
         while self.running:
-            print 'Waiting request...'
-            self.request = self.response.recv_json()
-            print 'Received: ', self.request
+            logger.debug('Reply waiting request...')
+            request = self.response.recv_json()
+            print 'Reply received request: ', request
 
             try:
-                getattr(protocolSignal, self.request['action']).emit()
+                getattr(protocolSignal, request['action']).emit()
             except AttributeError, error:
+                logger.warning('Reply received a bad request.')
                 msg = {'action': 'ERROR', 'args': []}
 
-            print 'Sending: ', msg
+            looger.debug('Reply sending resonse.')
             self.response.send_json(msg)
 
     def stop(self):
+        logger.info('Stopping reply')
         self.running = False
-        self.request.close()
+        self.response.close()
         self.context.term()
         self.wait()
         self.exit()

@@ -1,3 +1,8 @@
+"""
+Broadcast server and client, teacher or classroom
+discovery is made this way
+"""
+
 import time
 import socket
 import logging
@@ -6,13 +11,15 @@ from PySide import QtCore
 
 from Guanandy.Broadcast.Signals import broadcastSignal
 
-# TODO: may be implement time.sleep(random.randint(1, 5))
+logger = logging.getLogger(__name__)
+
 
 class BroadcastServer(QtCore.QThread):
 
     def __init__(self, ip, port, teacherName, teacherPort, parent=None):
         QtCore.QThread.__init__(self, parent)
         self.running = False
+        self.sock = None
         self.teacherName = teacherName
         self.teacherPort = str(teacherPort)
         self.message = '|'.join((self.teacherName, self.teacherPort))
@@ -20,6 +27,7 @@ class BroadcastServer(QtCore.QThread):
         self.port = port
 
     def run(self):
+        logger.info('Starting server on: %s, %d' % (self.ip, self.port))
         self.running = True
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
@@ -28,21 +36,21 @@ class BroadcastServer(QtCore.QThread):
         try:
             self.sock.bind(('', self.port))
         except socket.error, error:
-            print 'Socket bind error:', error.message
-            print 'Exiting...'
-            self.wait()
-            self.exit()
+            logger.critical('socker.bind error: %s' % error)
+            self.stop()
 
         while self.running:
             try:
                 self.sock.sendto(self.message, (self.ip, self.port))
+                logger.debug('Message sent: %s' % self.message)
             except socket.error, error:
-                print error
-                continue
+                logger.error('socket.sendto error: %s' % error)
             time.sleep(1)
 
     def stop(self):
+        logger.info('Stopping server')
         self.running = False
+        self.sock.close()
         self.wait()
         self.exit()
 
@@ -55,6 +63,7 @@ class BroadcastClient(QtCore.QThread):
         self.datagramSize = datagramSize
 
     def run(self):
+        logger.info('Starting client on: %d' % self.port)
         self.running = True
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM,
                 socket.IPPROTO_UDP)
@@ -64,21 +73,23 @@ class BroadcastClient(QtCore.QThread):
         try:
             self.sock.bind(('', self.port))
         except socket.error, error:
-            print 'Socket bind error:', error.message
-            print 'Exiting...'
-            self.wait()
-            self.exit()
+            logger.critical('socket.bind error: %s' % error)
+            self.stop()
 
         while self.running:
             try:
                 message, (ip, port) = self.sock.recvfrom(self.datagramSize)
                 teacherName, teacherPort = message.split('|')
-                broadcastSignal.teacherFound.emit(teacherName, ip, teacherPort)
-            except socket.timeout:
-                pass
+                logger.debug('Message received: %s' % message)
+                broadcastSignal.teacherFound.emit(teacherName, ip,
+                        teacherPort)
+            except socket.timeout, error:
+                logger.debug('Message timeout: %s', error)
             time.sleep(1)
 
     def stop(self):
+        logger.debug('Stopping client')
         self.running = False
+        self.sock.close()
         self.wait()
         self.exit()

@@ -1,3 +1,5 @@
+import logging
+
 from foo import system
 
 if system.get_os() == "Windows":
@@ -6,6 +8,8 @@ if system.get_os() == "Windows":
     from winerror import ERROR_ALREADY_EXISTS
 else:
     import os, commands
+
+logger = logging.getLogger(__name__)
 
 class SingleInstance(object):
 

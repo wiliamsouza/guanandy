@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import logging
 
 from PySide import QtCore, QtGui
 
@@ -27,4 +28,5 @@ def start():
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
     start()
