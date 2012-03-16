@@ -1,11 +1,41 @@
-callAttention = {'action': 'callAttention',
-                 'args': [],
-                }
+"""
+This define de protocol used to exchange message from/to teacher/student
+"""
 
-openApplication = {'action': 'openApplication',
-                   'args': [],
+
+# From student to teacher
+registerStudent = {'action': 'registerStudent',
+                   'name': '',
                   }
 
-openURL = {'action': 'openURL',
-           'args': [],
+
+# From teacher to student
+
+sendScreen = {'action': 'sendScreen',
+             }
+
+lockScreen = {'action': 'lockScreen',
+             }
+
+shareFile = {'action': 'shareFile',
+             'file': '',
+            }
+
+shareWebPage = {'action': 'shareWebPage',
+                'url': '',
+                }
+
+sendMessage = {'action': 'sendMessage',
+               'message': '',
+              }
+
+openApplication = {'action': 'openApplication',
+                   'application': '',
+                  }
+
+turnOff = {'action': 'turnOff',
           }
+
+# Both direction
+callAttention = {'action': 'callAttention',
+                }
