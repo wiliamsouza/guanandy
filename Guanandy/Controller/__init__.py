@@ -42,8 +42,8 @@ class Publisher(QtCore.QThread):
 
         while self.running:
             if self.message:
-                self.publisher.send(self.message)
-                logger.debug('Publisher message sent: %s' % self.message)
+                self.publisher.send_json(self.message)
+                logger.debug('Publisher sent a message: %s' % self.message)
                 self.message = None
             time.sleep(1)
 
@@ -84,7 +84,8 @@ class Subscriber(QtCore.QThread):
         self.subscriber.setsockopt_unicode(zmq.SUBSCRIBE, self.name)
 
         while self.running:
-            self.message = self.subscriber.recv()
+            self.message = self.subscriber.recv_json()
+            logger.debug('Subscriber received a message %s' % self.message)
             time.sleep(1)
 
     def stop(self):
@@ -97,6 +98,9 @@ class Subscriber(QtCore.QThread):
 
 
 class Request(QtCore.QThread):
+    """
+    A client used to talk with the teacher 
+    """
 
     def __init__(self, ip, port, parent=None):
         super(Request, self).__init__(parent)
@@ -126,13 +130,21 @@ class Request(QtCore.QThread):
                 logger.debug('Request waiting response...')
                 self.response = self.request.recv_json()
 
-                logger.debug('Request received response: %s' % self.response)
+                logger.debug('Request received response: %s' % \
+                        self.response)
                 self.message = None
 
             time.sleep(1)
 
-    def callAttention(self):
-        self.send(Protocol.callAttention)
+    def registerStudent(self, studentName):
+        protocol = Protocol.registerStudent.copy()
+        protocol['studentName'] = studentName
+        self.send(protocol)
+
+    def callAttention(self, studentName):
+        protocol = Protocol.callAttention.copy()
+        protocol['studentName'] = studentName
+        self.send(protocol)
 
     def send(self, message):
         self.message = message
@@ -147,6 +159,9 @@ class Request(QtCore.QThread):
 
 
 class Reply(QtCore.QThread):
+    """
+    A server to listen student request.'
+    """
 
     def __init__(self, ip, port, parent=None):
         super(Reply, self).__init__(parent)
@@ -164,20 +179,30 @@ class Reply(QtCore.QThread):
         except:
             logger.critical('Reply bind error: %s' % error)
 
-        msg = {'action': 'OK', 'args': []}
         while self.running:
             logger.debug('Reply waiting request...')
             request = self.response.recv_json()
-            print 'Reply received request: ', request
+            logger.debug('Reply received request. %s' % request)
 
             try:
-                getattr(protocolSignal, request['action']).emit()
+                getattr(self, request['action'])(request)
             except AttributeError, error:
                 logger.warning('Reply received a bad request.')
-                msg = {'action': 'ERROR', 'args': []}
+                self.sendReply({'action': 'ERROR'})
 
-            looger.debug('Reply sending resonse.')
-            self.response.send_json(msg)
+            self.sendReply({'action': 'OK'})
+
+    def registerStudent(self, request):
+        studentName = request['studentName']
+        protocolSignal.registerStudent.emit(studentName)
+
+    def callAttention(self, request):
+        studentName = request['studentName']
+        protocolSignal.callAttention.emit(studentName)
+
+    def sendReply(self, reply):
+        logger.debug('Reply sending resonse.')
+        self.response.send_json(reply)
 
     def stop(self):
         logger.info('Stopping reply')
