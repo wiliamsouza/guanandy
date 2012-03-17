@@ -5,7 +5,6 @@ This define de protocol used to exchange message from/to teacher/student
 
 # From student to teacher
 registerStudent = {'action': 'registerStudent',
-                   'name': '',
                   }
 
 
