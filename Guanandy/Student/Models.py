@@ -1,6 +1,8 @@
 from PySide import QtCore
 
 from Guanandy.Broadcast.Signals import broadcastSignal
+from Guanandy.Protocol.Signals import protocolSignal
+from Guanandy import Controller
 
 
 class Teacher(QtCore.QObject):
@@ -9,6 +11,32 @@ class Teacher(QtCore.QObject):
         self.__name = name
         self.__ip = ip
         self.__port = port
+
+        # Attribute definition
+        self.subscriber = None
+        self.request = None
+        self.studentName = None
+
+    def connect(self, studentName):
+        self.studentName = studentName
+        self.subscriber = Controller.Subscriber(self.ip, self.port,
+                studentName)
+        self.subscriber.start()
+
+        self.request = Controller.Request(self.ip, 65533)
+        self.request.start()
+
+        self.registerStudent()
+
+    def stop(self):
+        self.subscriber.stop()
+        self.request.stop()
+
+    def registerStudent(self):
+        self.request.registerStudent(self.studentName)
+
+    def callAttention(self):
+        self.request.callAttention(self.studentName)
 
     def __getName(self):
         return str(self.__name)
@@ -51,7 +79,8 @@ class TeacherModel(QtCore.QAbstractListModel):
         for t in self.__teachers:
             if t.name == name:
                 return
-        self.beginInsertRows(QtCore.QModelIndex(), len(self.__teachers), len(self.__teachers))
+        self.beginInsertRows(QtCore.QModelIndex(), len(self.__teachers),
+                len(self.__teachers))
         teacher = Teacher(name, ip, port, self)
         self.__teachers.append(teacher)
         self.endInsertRows()
