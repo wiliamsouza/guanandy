@@ -1,10 +1,8 @@
 from PySide import QtCore, QtGui, QtUiTools
 
-from Guanandy.Protocol.Signals import protocolSignal
 from Guanandy.Student.Models import TeacherModel
 from Guanandy.Broadcast import BroadcastClient
 from Guanandy.Util import EMPTY_VALUES
-from Guanandy import Controller
 
 
 class StudentView(QtGui.QWidget):
@@ -16,12 +14,14 @@ class StudentView(QtGui.QWidget):
         self.broadcastClient = BroadcastClient(65535, 255, parent=self)
         self.broadcastClient.start()
 
-        self.subscriber = None
-        self.request = None
+        # Attribute definition
+        self.teacher = None
 
-        # Dialog
+        # Teacher model
+        self.teacherModel = TeacherModel(self)
+
+        # View definition
         self.setWindowTitle('Student Login')
-
         self.gridLayout = QtGui.QGridLayout(self)
 
         self.label = QtGui.QLabel(self)
@@ -30,6 +30,7 @@ class StudentView(QtGui.QWidget):
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
 
         self.studentName= QtGui.QLineEdit(self)
+        self.studentName.insert('Seu Buneco')
         self.gridLayout.addWidget(self.studentName, 1, 0, 1, 1)
 
         self.label1 = QtGui.QLabel(self)
@@ -37,12 +38,8 @@ class StudentView(QtGui.QWidget):
         self.label1.setText('Select a teacher name or class name')
         self.gridLayout.addWidget(self.label1, 2, 0, 1, 1)
 
-        # Model
-        teacherModel = TeacherModel(self)
-
         self.teacherListView = QtGui.QListView(self)
-        #self.teacherListView = QtGui.QTreeView(self)
-        self.teacherListView.setModel(teacherModel)
+        self.teacherListView.setModel(self.teacherModel)
         self.gridLayout.addWidget(self.teacherListView, 3, 0, 1, 1)
 
         self.errorMessage = QtGui.QLabel(self)
@@ -61,7 +58,7 @@ class StudentView(QtGui.QWidget):
 
         # System tray actions
         self.loginAction = QtGui.QAction('&Login',
-                self, triggered=self.login)
+                self, triggered=self.show)
         self.logoutAction = QtGui.QAction('&Disconnect from',
                 self, triggered=self.logout)
         self.callAttentionAction = QtGui.QAction('&Call attention',
@@ -94,14 +91,8 @@ class StudentView(QtGui.QWidget):
         self.sysTrayIcon.setToolTip('Student')
         self.sysTrayIcon.show()
 
-    def login(self):
-        self.show()
-
     def logout(self):
         pass
-
-    def callAttention(self):
-        protocolSignal.callAttention.emit()
 
     def downloadProgress(self):
         pass
@@ -111,6 +102,10 @@ class StudentView(QtGui.QWidget):
 
     def about(self):
         pass
+
+    def callAttention(self):
+        if self.teacher:
+            self.teacher.callAttention()
 
     def close(self):
         self.sysTrayIcon.hide()
@@ -127,28 +122,25 @@ class StudentView(QtGui.QWidget):
             self.hide()
             event.ignore()
         else:
-            self.broadcastClient.stop()
-            self.subscriber.stop()
-            self.request.stop()
             QtGui.qApp.setQuitOnLastWindowClosed(True)
+            self.broadcastClient.stop()
+            if self.teacher:
+                self.teacher.stop()
             event.accept()
 
     def connect(self):
-        if self.studentName.text() in EMPTY_VALUES:
+        studentName = self.studentName.text()
+
+        if studentName in EMPTY_VALUES:
             self.errorMessage.setText('This field is required.')
             return
 
-        # Get the current selected teacher or classroom
+        # Get the current selected teacher
         teacherModel =  self.teacherListView.currentIndex()
-        teacher =  teacherModel.data(role=1111)
+        self.teacher =  teacherModel.data(role=1111)
 
-        if not teacher:
-            self.errorMessage.setText('You must select at least one teacher.')
-        else:
-            self.subscriber = Controller.Subscriber(teacher.ip, teacher.port, self.studentName.text())
-            self.subscriber.start()
-
-            self.request = Controller.Request(teacher.ip, 65533)
-            self.request.start()
-
+        if self.teacher:
+            self.teacher.connect(studentName)
             self.hide()
+        else:
+            self.errorMessage.setText('You must select one teacher.')
