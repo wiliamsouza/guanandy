@@ -1,6 +1,7 @@
 from PySide import QtCore, QtGui, QtUiTools
 
 from Guanandy.Protocol.Signals import protocolSignal
+from Guanandy.Teacher.Models import StudentModel
 from Guanandy.Broadcast import BroadcastServer
 from Guanandy.Util import EMPTY_VALUES
 from Guanandy import Controller
@@ -81,11 +82,13 @@ class TeacherView(QtGui.QMainWindow):
         self.publisher = None
         self.reply = None
 
-        protocolSignal.callAttention.connect(self.showMessage)
+        protocolSignal.callAttention.connect(self.callAttention)
 
         self.setWindowTitle('Guanandy Teacher')
 
         self.guanandy = QtGui.QWidget(self)
+
+        self.studentModel = StudentModel(self.guanandy)
 
         self.sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding,
                 QtGui.QSizePolicy.Expanding)
@@ -201,6 +204,7 @@ class TeacherView(QtGui.QMainWindow):
         # Students layout
         self.studentsLayout = QtGui.QVBoxLayout()
         self.studentListView = QtGui.QListView(self.guanandy)
+        self.studentListView.setModel(self.studentModel)
         self.studentsLayout.addWidget(self.studentListView)
         self.guanandyLayout.addLayout(self.studentsLayout, 3, 0, 1, 1)
 
@@ -261,11 +265,9 @@ class TeacherView(QtGui.QMainWindow):
             self.reply = Controller.Reply('192.168.1.4', 65533)
             self.reply.start()
 
-    def showMessage(self):
-        print 'Student call attetion!'
-        #icon = QtGui.QSystemTrayIcon.MessageIcon(self.style().standardIcon(QtGui.QStyle.SP_MessageBoxInformation),
-        #        'Information', QtGui.QSystemTrayIcon.Information)
-        #self.trayIcon.showMessage('Bla', 'Student call attention', icon, 1000)
+    def callAttention(self, studentName):
+        QtGui.QMessageBox.information(self, 'Student message',
+                'Student {0} call attetion!'.format(studentName))
 
     def closeEvent(self, event):
         closeDialog = CloseDialog(self)
