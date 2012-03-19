@@ -4,6 +4,7 @@ from Guanandy.Protocol.Signals import protocolSignal
 from Guanandy.Teacher.Models import StudentModel
 from Guanandy.Broadcast import BroadcastServer
 from Guanandy.Util import EMPTY_VALUES
+from Guanandy.Util import ipAddress
 from Guanandy import Controller
 from Guanandy import getVersion
 
@@ -259,10 +260,12 @@ class TeacherView(QtGui.QMainWindow):
                     65535, teacherName, 65534, parent=self)
             self.broadcastServer.start()
 
-            self.publisher = Controller.Publisher('192.168.1.4', 65534)
+            ip = ipAddress()
+
+            self.publisher = Controller.Publisher(ip, 65534)
             self.publisher.start()
 
-            self.reply = Controller.Reply('192.168.1.4', 65533)
+            self.reply = Controller.Reply(ip, 65533)
             self.reply.start()
 
     def callAttention(self, studentName):
