@@ -1,5 +1,7 @@
 import sys
 import csv
+import fcntl
+import struct
 import socket
 import logging
 
@@ -27,7 +29,7 @@ def ipAddress():
     logger.debug('Trying to get ip address from socket.')
     try:
         ip = socket.gethostbyname(socket.gethostname())
-        if ip != '127.0.0.1':
+        if not ip.startswith('127'):
             logger.debug('Ip {0} address found.'.format(ip))
             return ip
     except socket.gaierror:
@@ -39,7 +41,7 @@ def ipAddress():
         for interface in netifaces.interfaces():
             try:
                 ip = netifaces.ifaddresses(interface)[netifaces.AF_INET][0]['addr']
-                if ip != '127.0.0.1':
+                if not ip.startswith('127'):
                     logger.info('Ip {0} address found on {1}'.format(ip, interface))
                     return ip
             except KeyError:
@@ -56,7 +58,7 @@ def ipAddress():
                 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                 try:
                     ip = socket.inet_ntoa(fcntl.ioctl(sock.fileno(), 0x8915, struct.pack('256s', route['Iface'][:15]) )[20:24])
-                    if ip != '127.0.0.1':
+                    if not ip.startswith('127'):
                         logger.debug('Ip {0} address found.'.format(ip))
                         return ip
                 except IOError:
