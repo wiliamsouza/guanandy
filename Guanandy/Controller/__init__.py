@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 import logging
 
@@ -37,7 +38,7 @@ class Publisher(QtCore.QThread):
         try:
             self.publisher.bind(self.uri)
         except:
-            logger.critical('Publisher bind error: %s' % error)
+            logger.critical('Publisher bind error: {0}'.format(sys.exc_info()[1]))
             self.stop()
 
         while self.running:
@@ -177,7 +178,8 @@ class Reply(QtCore.QThread):
         try:
             self.response.bind(self.uri)
         except:
-            logger.critical('Reply bind error: %s' % error)
+            logger.critical('Reply bind error: {0}'.format(sys.exc_info()[1]))
+            self.stop()
 
         while self.running:
             logger.debug('Reply waiting request...')
