@@ -3,8 +3,8 @@ from PySide import QtCore, QtGui, QtUiTools
 from Guanandy.Protocol.Signals import protocolSignal
 from Guanandy.Teacher.Models import StudentModel
 from Guanandy.Broadcast import BroadcastServer
-from Guanandy.Util import EMPTY_VALUES
-from Guanandy.Util import ipAddress
+from Guanandy.Multicast import MulticastServer
+from Guanandy import Util
 from Guanandy import Controller
 from Guanandy import getVersion
 
@@ -47,7 +47,7 @@ class LoginDialog(QtGui.QDialog):
 
     def accept(self):
         """ Validate if teacher or classroom name is not empty """
-        if self.teacherName.text() in EMPTY_VALUES:
+        if self.teacherName.text() in Util.EMPTY_VALUES:
             self.errorMessage.setText('This field is required.')
         else:
             super(LoginDialog, self).accept()
@@ -80,8 +80,15 @@ class TeacherView(QtGui.QMainWindow):
         super(TeacherView, self).__init__(parent)
 
         self.broadcastServer = None
+        self.broadcastPort = 65535
+        self.multicastServer = None
+        self.multicastPort = 65532
         self.publisher = None
+        self.publisherPort = 65534
         self.reply = None
+        self.replyPort = 65533
+
+        self.ip = None
 
         protocolSignal.callAttention.connect(self.callAttention)
 
@@ -151,6 +158,7 @@ class TeacherView(QtGui.QMainWindow):
         self.shareFilesButton.setToolButtonStyle(
                 QtCore.Qt.ToolButtonTextUnderIcon)
         self.shareFilesButton.setText('Share files')
+        self.shareFilesButton.clicked.connect(self.shareFiles)
         self.commandsLayout.addWidget(self.shareFilesButton)
 
         self.shareWebPageButton = QtGui.QToolButton(self.guanandy)
@@ -206,6 +214,7 @@ class TeacherView(QtGui.QMainWindow):
         self.studentsLayout = QtGui.QVBoxLayout()
         self.studentListView = QtGui.QListView(self.guanandy)
         self.studentListView.setModel(self.studentModel)
+        self.studentListView.setSelectionMode(QtGui.QAbstractItemView.MultiSelection)
         self.studentsLayout.addWidget(self.studentListView)
         self.guanandyLayout.addLayout(self.studentsLayout, 3, 0, 1, 1)
 
@@ -257,16 +266,37 @@ class TeacherView(QtGui.QMainWindow):
         if loginDialog.exec_():
             teacherName = loginDialog.teacherName.text()
             self.broadcastServer = BroadcastServer('255.255.255.255',
-                    65535, teacherName, 65534, parent=self)
+                    self.broadcastPort, teacherName, self.publisherPort, parent=self)
             self.broadcastServer.start()
 
-            ip = ipAddress()
+            self.ip = Util.ipAddress()
 
-            self.publisher = Controller.Publisher(ip, 65534)
+            self.publisher = Controller.Publisher(self.ip, self.publisherPort, parent=self)
             self.publisher.start()
 
-            self.reply = Controller.Reply(ip, 65533)
+            self.reply = Controller.Reply(self.ip, self.replyPort, parent=self)
             self.reply.start()
+
+            self.multicastServer = MulticastServer(self.ip, self.multicastPort, parent=self)
+            self.multicastServer.start()
+
+    def shareFiles(self):
+        studentsIndex = self.studentListView.selectedIndexes()
+        if studentsIndex not in Util.EMPTY_VALUES:
+            fileName = QtGui.QFileDialog.getOpenFileName(self,
+                    'Choose a file to share', Util.homeDirectory(), None)[0]
+            if fileName not in Util.EMPTY_VALUES:
+                for index in studentsIndex:
+                    student = index.data(role=1111)
+                    if student:
+                        student.shareFile(fileName, self.publisher, self.multicastPort)
+                    else:
+                        print 'No student selected'
+            else:
+                print 'Share file canceled'
+        else:
+            QtGui.QMessageBox.warning(self, 'Select a student',
+                    'You must select at least on student.')
 
     def callAttention(self, studentName):
         QtGui.QMessageBox.information(self, 'Student message',

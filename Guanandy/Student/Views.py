@@ -4,6 +4,8 @@ from Guanandy.Student.Models import TeacherModel
 from Guanandy.Broadcast import BroadcastClient
 from Guanandy.Util import EMPTY_VALUES
 
+from Guanandy.Protocol.Signals import protocolSignal
+
 
 class StudentView(QtGui.QWidget):
 
@@ -16,6 +18,8 @@ class StudentView(QtGui.QWidget):
 
         # Attribute definition
         self.teacher = None
+
+        protocolSignal.shareFile.connect(self.shareFile)
 
         # Teacher model
         self.teacherModel = TeacherModel(self)
@@ -106,6 +110,9 @@ class StudentView(QtGui.QWidget):
     def callAttention(self):
         if self.teacher:
             self.teacher.callAttention()
+
+    def shareFile(self, fileName, multicastIp, multicastPort):
+        print 'Teacher want to share {0} with you'.format(fileName)
 
     def close(self):
         self.sysTrayIcon.hide()

@@ -1,3 +1,9 @@
+"""
+This module contains server and client used to exchange messages from/to
+teacher/student.
+
+"""
+
 import os
 import sys
 import time
@@ -14,14 +20,19 @@ logger = logging.getLogger(__name__)
 
 
 class Publisher(QtCore.QThread):
+    """
+    A server that publishes messages to students.
+    """
 
-    def __init__(self, ip, port, parent=None):
+    def __init__(self, ip, port, parent):
         super(Publisher, self).__init__(parent)
         self.running = False
         self.context = None
         self.message = None
         self.publisher = None
-        self.uri = 'tcp://%s:%s' % (ip, port)
+        self.ip = ip
+        self.port = port
+        self.uri = 'tcp://%s:%s' % (self.ip, self.port)
 
     def run(self):
         logger.info('Starting publisher on: %s' % self.uri)
@@ -48,7 +59,14 @@ class Publisher(QtCore.QThread):
                 self.message = None
             time.sleep(1)
 
-    def send(message):
+    def shareFile(self, fileName, multicastPort):
+        protocol = Protocol.shareFile.copy()
+        protocol['file'] = fileName
+        protocol['ip'] = self.ip
+        protocol['port'] = multicastPort
+        self.send(protocol)
+
+    def send(self, message):
         self.message = message
 
     def stop(self):
@@ -61,8 +79,11 @@ class Publisher(QtCore.QThread):
 
 
 class Subscriber(QtCore.QThread):
+    """
+    A Client that receive published messages from teachers.
+    """
 
-    def __init__(self, ip, port, name, parent=None):
+    def __init__(self, ip, port, name, parent):
         super(Subscriber, self).__init__(parent)
         self.running = False
         self.context = None
@@ -82,12 +103,23 @@ class Subscriber(QtCore.QThread):
         except:
             logger.critical('Subscriber connect error: %s' % error)
 
-        self.subscriber.setsockopt_unicode(zmq.SUBSCRIBE, self.name)
+        self.subscriber.setsockopt_unicode(zmq.SUBSCRIBE, u'')#self.name)
 
         while self.running:
-            self.message = self.subscriber.recv_json()
-            logger.debug('Subscriber received a message %s' % self.message)
-            time.sleep(1)
+            logger.debug('Subscriber waiting request...')
+            request = self.subscriber.recv_json()
+            logger.debug('Subscriber received request. %s' % request)
+
+            try:
+                getattr(self, request['action'])(request)
+            except AttributeError, error:
+                logger.warning('Subscriber received a bad request.')
+
+    def shareFile(self, request):
+        fileName = request['file']
+        multicastIp = request['ip']
+        multicastPort = request['port']
+        protocolSignal.shareFile.emit(fileName, multicastIp, multicastPort)
 
     def stop(self):
         logger.info('Stopping subscriber')
@@ -100,10 +132,10 @@ class Subscriber(QtCore.QThread):
 
 class Request(QtCore.QThread):
     """
-    A client used to talk with the teacher 
+    A client used to talk with the teacher
     """
 
-    def __init__(self, ip, port, parent=None):
+    def __init__(self, ip, port, parent):
         super(Request, self).__init__(parent)
         self.running = False
         self.uri = 'tcp://%s:%s' % (ip, port)
@@ -161,10 +193,10 @@ class Request(QtCore.QThread):
 
 class Reply(QtCore.QThread):
     """
-    A server to listen student request.'
+    A server that listen for student request.
     """
 
-    def __init__(self, ip, port, parent=None):
+    def __init__(self, ip, port, parent):
         super(Reply, self).__init__(parent)
         self.running = False
         self.uri = 'tcp://%s:%s' % (ip, port)

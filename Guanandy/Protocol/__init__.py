@@ -1,5 +1,7 @@
 """
-This define de protocol used to exchange message from/to teacher/student
+This module define de protocol used to exchange message from/to
+teacher/student.
+
 """
 
 
@@ -34,6 +36,7 @@ openApplication = {'action': 'openApplication',
 
 turnOff = {'action': 'turnOff',
           }
+
 
 # Both direction
 callAttention = {'action': 'callAttention',
