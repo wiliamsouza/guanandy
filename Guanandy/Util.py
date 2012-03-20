@@ -1,3 +1,9 @@
+"""
+Utilities used across all modules.
+
+"""
+
+import os
 import sys
 import csv
 import fcntl
@@ -6,6 +12,7 @@ import socket
 import logging
 
 logger = logging.getLogger(__name__)
+
 
 EMPTY_VALUES = (None, '', [], (), {})
 
@@ -21,11 +28,19 @@ def isPlatformWindows():
     """
     return sys.platform.startswith('win')
 
+def homeDirectory():
+    """
+    Return the current user home directory
+    """
+    if isPlatformLinux():
+        return os.getenv('HOME')
+    else:
+        return os.getenv('USERPROFILE')
+
 def ipAddress():
     """
     Return a non local ip address
     """
-
     logger.debug('Trying to get ip address from socket.')
     try:
         ip = socket.gethostbyname(socket.gethostname())
@@ -40,9 +55,11 @@ def ipAddress():
         import netifaces
         for interface in netifaces.interfaces():
             try:
-                ip = netifaces.ifaddresses(interface)[netifaces.AF_INET][0]['addr']
+                ip = netifaces.ifaddresses(interface) \
+                        [netifaces.AF_INET][0]['addr']
                 if not ip.startswith('127'):
-                    logger.info('Ip {0} address found on {1}'.format(ip, interface))
+                    logger.info('Ip {0} address found on {1}'.format(ip,
+                        interface))
                     return ip
             except KeyError:
                 pass
@@ -57,7 +74,9 @@ def ipAddress():
             if long(route['Destination'], 16) == 0:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                 try:
-                    ip = socket.inet_ntoa(fcntl.ioctl(sock.fileno(), 0x8915, struct.pack('256s', route['Iface'][:15]) )[20:24])
+                    ip = socket.inet_ntoa(fcntl.ioctl(sock.fileno(),
+                        0x8915, struct.pack('256s',
+                            route['Iface'][:15]))[20:24])
                     if not ip.startswith('127'):
                         logger.debug('Ip {0} address found.'.format(ip))
                         return ip

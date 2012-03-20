@@ -7,6 +7,7 @@ from PySide import QtCore, QtGui
 
 from Guanandy.Teacher.Views import TeacherView
 
+
 def start():
 
     app = QtGui.QApplication(sys.argv)
