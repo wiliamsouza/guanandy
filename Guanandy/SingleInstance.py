@@ -1,3 +1,9 @@
+"""
+This module ensure that only on instance of teacher and student will run
+each time on the system.
+
+"""
+
 import logging
 
 from foo import system

@@ -1,6 +1,6 @@
 """
-Broadcast server and client, teacher or classroom
-discovery is made this way
+Broadcast server and client, teacher discovery is done using it.
+
 """
 
 import time
