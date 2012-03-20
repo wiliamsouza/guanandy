@@ -4,12 +4,15 @@ from Guanandy.Protocol.Signals import protocolSignal
 
 
 class Student(QtCore.QObject):
-    def __init__(self, name, parent=None):
+    def __init__(self, name, parent):
         super(Student, self).__init__(parent)
         self.__name = name
 
     def __getName(self):
         return str(self.__name)
+
+    def shareFile(self, fileName, publisher, publisherPort):
+        publisher.shareFile(fileName, publisherPort)
 
     changed = QtCore.Signal()
     name = QtCore.Property(unicode, __getName, notify=changed)
@@ -17,7 +20,7 @@ class Student(QtCore.QObject):
 
 class StudentModel(QtCore.QAbstractListModel):
 
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(StudentModel, self).__init__(parent)
         self.__students = []
         protocolSignal.registerStudent.connect(self.add)
