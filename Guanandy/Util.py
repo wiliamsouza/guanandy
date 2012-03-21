@@ -6,7 +6,6 @@ Utilities used across all modules.
 import os
 import sys
 import csv
-import fcntl
 import struct
 import socket
 import logging
@@ -68,6 +67,8 @@ def ipAddress():
         logger.debug('netifaces not installed.')
 
     if isPlatformLinux():
+        import fcntl
+
         logger.debug('Trying to get ip address from /proc/net/route')
         routeFile  = open('/proc/net/route', 'r')
         for route in csv.DictReader(routeFile, delimiter='\t'):
