@@ -3,6 +3,7 @@ Multicast server and client that use OpenPGM.
 
 """
 
+import sys
 import os
 import time
 import hashlib
