@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 class BroadcastServer(QtCore.QThread):
 
-    def __init__(self, ip, port, teacherName, teacherPort, parent=None):
+    def __init__(self, ip, port, teacherName, teacherPort, parent):
         QtCore.QThread.__init__(self, parent)
         self.running = False
         self.sock = None
@@ -56,8 +56,11 @@ class BroadcastServer(QtCore.QThread):
 
 
 class BroadcastClient(QtCore.QThread):
+    """
 
-    def __init__(self, port, datagramSize, parent=None):
+    """
+
+    def __init__(self, port, datagramSize, parent):
         QtCore.QThread.__init__(self, parent)
         self.port = port
         self.datagramSize = datagramSize
