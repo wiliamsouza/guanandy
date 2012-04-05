@@ -13,8 +13,8 @@ import zmq
 
 from PySide import QtCore
 
-from Guanandy.Protocol.Signals import protocolSignal
 from Guanandy import Protocol
+from Guanandy.Protocol.Signals import protocolSignal
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +33,9 @@ class Publisher(QtCore.QThread):
         self.ip = ip
         self.port = port
         self.uri = 'tcp://%s:%s' % (self.ip, self.port)
+
+        # Signals
+        protocolSignal.shareFile.connect(self.shareFile)
 
     def run(self):
         logger.info('Starting publisher on: %s' % self.uri)
@@ -59,7 +62,7 @@ class Publisher(QtCore.QThread):
                 self.message = None
             time.sleep(1)
 
-    def shareFile(self, fileName, multicastPort):
+    def shareFile(self, userName, fileName, multicastPort):
         protocol = Protocol.shareFile.copy()
         protocol['file'] = fileName
         protocol['ip'] = self.ip
@@ -140,7 +143,10 @@ class Request(QtCore.QThread):
         self.running = False
         self.uri = 'tcp://%s:%s' % (ip, port)
         self.message = None
+
+        # Signals
         protocolSignal.callAttention.connect(self.callAttention)
+        protocolSignal.registerStudent.connect(self.registerStudent)
 
     def run(self):
         logger.info('Starting request on: %s' % self.uri)
