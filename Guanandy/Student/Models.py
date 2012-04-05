@@ -1,8 +1,6 @@
 from PySide import QtCore
 
 from Guanandy.Broadcast.Signals import broadcastSignal
-from Guanandy.Protocol.Signals import protocolSignal
-from Guanandy import Controller
 
 
 class Teacher(QtCore.QObject):
@@ -11,44 +9,6 @@ class Teacher(QtCore.QObject):
         self.__name = name
         self.__ip = ip
         self.__port = port
-
-        # Attribute definition
-        self.subscriber = None
-        self.request = None
-        self.studentName = None
-
-    def connect(self, studentName):
-        """
-        Connect to teacher server
-        """
-        self.studentName = studentName
-        self.subscriber = Controller.Subscriber(self.ip, self.port, studentName, parent=self)
-        self.subscriber.start()
-
-        self.request = Controller.Request(self.ip, 65533, parent=self)
-        self.request.start()
-
-        self.registerStudent()
-
-    def stop(self):
-        """
-        Stop connection with teacher
-        """
-        # TODO: Send a student will shutdown message to teacher
-        self.subscriber.stop()
-        self.request.stop()
-
-    def registerStudent(self):
-        """
-        Register in a classroom
-        """
-        self.request.registerStudent(self.studentName)
-
-    def callAttention(self):
-        """
-        Send call attention message
-        """
-        self.request.callAttention(self.studentName)
 
     def __getName(self):
         return str(self.__name)

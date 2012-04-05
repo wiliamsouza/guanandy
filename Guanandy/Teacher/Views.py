@@ -158,7 +158,7 @@ class TeacherView(QtGui.QMainWindow):
         self.shareFilesButton.setToolButtonStyle(
                 QtCore.Qt.ToolButtonTextUnderIcon)
         self.shareFilesButton.setText('Share files')
-        self.shareFilesButton.clicked.connect(self.shareFiles)
+        self.shareFilesButton.clicked.connect(self.shareFile)
         self.commandsLayout.addWidget(self.shareFilesButton)
 
         self.shareWebPageButton = QtGui.QToolButton(self.guanandy)
@@ -263,8 +263,10 @@ class TeacherView(QtGui.QMainWindow):
 
     def login(self):
         loginDialog = LoginDialog(self)
+
         if loginDialog.exec_():
             teacherName = loginDialog.teacherName.text()
+
             self.broadcastServer = BroadcastServer('255.255.255.255',
                     self.broadcastPort, teacherName, self.publisherPort, parent=self)
             self.broadcastServer.start()
@@ -280,7 +282,7 @@ class TeacherView(QtGui.QMainWindow):
             self.multicastServer = MulticastServer(self.ip, self.multicastPort, parent=self)
             self.multicastServer.start()
 
-    def shareFiles(self):
+    def shareFile(self):
         studentsIndex = self.studentListView.selectedIndexes()
         if studentsIndex not in Util.EMPTY_VALUES:
             fileName = QtGui.QFileDialog.getOpenFileName(self,
@@ -289,7 +291,7 @@ class TeacherView(QtGui.QMainWindow):
                 for index in studentsIndex:
                     student = index.data(role=1111)
                     if student:
-                        student.shareFile(fileName, self.publisher, self.multicastPort)
+                        student.shareFile(fileName, self.multicastPort)
                     else:
                         print 'No student selected'
             else:

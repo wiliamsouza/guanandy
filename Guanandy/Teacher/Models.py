@@ -11,8 +11,8 @@ class Student(QtCore.QObject):
     def __getName(self):
         return str(self.__name)
 
-    def shareFile(self, fileName, publisher, publisherPort):
-        publisher.shareFile(fileName, publisherPort)
+    def shareFile(self, fileName, multicastPort):
+        protocolSignal.shareFile.emit(self.name, fileName, multicastPort)
 
     changed = QtCore.Signal()
     name = QtCore.Property(unicode, __getName, notify=changed)

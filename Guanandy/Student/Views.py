@@ -1,9 +1,9 @@
-from PySide import QtCore, QtGui, QtUiTools
+from PySide import QtCore, QtGui
 
-from Guanandy.Student.Models import TeacherModel
-from Guanandy.Broadcast import BroadcastClient
+from Guanandy import Controller
 from Guanandy.Util import EMPTY_VALUES
-
+from Guanandy.Broadcast import BroadcastClient
+from Guanandy.Student.Models import TeacherModel
 from Guanandy.Protocol.Signals import protocolSignal
 
 
@@ -18,7 +18,10 @@ class StudentView(QtGui.QWidget):
 
         # Attribute definition
         self.teacher = None
+        self.subscriber = None
+        self.request = None
 
+        # Signals
         protocolSignal.shareFile.connect(self.shareFile)
 
         # Teacher model
@@ -109,31 +112,10 @@ class StudentView(QtGui.QWidget):
 
     def callAttention(self):
         if self.teacher:
-            self.teacher.callAttention()
+            protocolSignal.callAttention.emit(self.studentName.text())
 
     def shareFile(self, fileName, multicastIp, multicastPort):
         print 'Teacher want to share {0} with you'.format(fileName)
-
-    def close(self):
-        self.sysTrayIcon.hide()
-        super(StudentView, self).close()
-
-    def closeEvent(self, event):
-        """ To prevent the window X button from close the application
-
-        The closing event will be accepted only when fired from systray
-        quit button.
-
-        """
-        if self.sysTrayIcon.isVisible():
-            self.hide()
-            event.ignore()
-        else:
-            QtGui.qApp.setQuitOnLastWindowClosed(True)
-            self.broadcastClient.stop()
-            if self.teacher:
-                self.teacher.stop()
-            event.accept()
 
     def connect(self):
         studentName = self.studentName.text()
@@ -145,9 +127,35 @@ class StudentView(QtGui.QWidget):
         # Get the current selected teacher
         teacherModel =  self.teacherListView.currentIndex()
         self.teacher =  teacherModel.data(role=1111)
-
         if self.teacher:
-            self.teacher.connect(studentName)
+            self.subscriber = Controller.Subscriber(self.teacher.ip, self.teacher.port, studentName, parent=self)
+            self.subscriber.start()
+
+            self.request = Controller.Request(self.teacher.ip, 65533, parent=self)
+            self.request.start()
+
+            protocolSignal.registerStudent.emit(studentName)
+
             self.hide()
         else:
             self.errorMessage.setText('You must select one teacher.')
+
+    def close(self):
+        self.sysTrayIcon.hide()
+        super(StudentView, self).close()
+
+    def closeEvent(self, event):
+        """ To prevent the window X button from close the application
+
+        The closing event will be accepted only when fired from systray
+        quit button.
+        """
+        if self.sysTrayIcon.isVisible():
+            self.hide()
+            event.ignore()
+        else:
+            QtGui.qApp.setQuitOnLastWindowClosed(True)
+            self.broadcastClient.stop()
+            self.subscriber.stop()
+            self.request.stop()
+            event.accept()
