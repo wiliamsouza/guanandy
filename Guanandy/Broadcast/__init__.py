@@ -7,7 +7,7 @@ import time
 import socket
 import logging
 
-from PySide import QtCore
+from PySide2 import QtCore
 
 from Guanandy.Broadcast.Signals import broadcastSignal
 
@@ -35,15 +35,15 @@ class BroadcastServer(QtCore.QThread):
 
         try:
             self.sock.bind(('', self.port))
-        except socket.error, error:
+        except socket.error as error:
             logger.critical('socker.bind error: %s' % error)
             self.stop()
 
         while self.running:
             try:
-                self.sock.sendto(self.message, (self.ip, self.port))
+                self.sock.sendto(bytes(self.message, 'utf-8'), (self.ip, self.port))
                 logger.debug('Message sent: %s' % self.message)
-            except socket.error, error:
+            except socket.error as error:
                 logger.error('socket.sendto error: %s' % error)
             time.sleep(1)
 
@@ -68,25 +68,23 @@ class BroadcastClient(QtCore.QThread):
     def run(self):
         logger.info('Starting client on: %d' % self.port)
         self.running = True
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM,
-                socket.IPPROTO_UDP)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.sock.settimeout(1)
 
         try:
             self.sock.bind(('', self.port))
-        except socket.error, error:
+        except socket.error as error:
             logger.critical('socket.bind error: %s' % error)
             self.stop()
 
         while self.running:
             try:
                 message, (ip, port) = self.sock.recvfrom(self.datagramSize)
-                teacherName, teacherPort = message.split('|')
+                teacherName, teacherPort = message.split(b'|')
                 logger.debug('Message received: %s' % message)
-                broadcastSignal.teacherFound.emit(teacherName, ip,
-                        teacherPort)
-            except socket.timeout, error:
+                broadcastSignal.teacherFound.emit(teacherName, ip, teacherPort)
+            except socket.timeout as error:
                 logger.debug('Message timeout: %s', error)
             time.sleep(1)
 

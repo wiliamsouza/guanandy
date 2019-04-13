@@ -1,4 +1,4 @@
-from PySide import QtCore
+from PySide2 import QtCore
 
 from Guanandy.Broadcast.Signals import broadcastSignal
 
@@ -20,9 +20,9 @@ class Teacher(QtCore.QObject):
         return str(self.__port)
 
     changed = QtCore.Signal()
-    name = QtCore.Property(unicode, __getName, notify=changed)
-    ip = QtCore.Property(unicode, __getIp, notify=changed)
-    port = QtCore.Property(unicode, __getPort, notify=changed)
+    name = QtCore.Property(str, __getName, notify=changed)
+    ip = QtCore.Property(str, __getIp, notify=changed)
+    port = QtCore.Property(str, __getPort, notify=changed)
 
 
 class TeacherModel(QtCore.QAbstractListModel):

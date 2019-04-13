@@ -11,7 +11,7 @@ import logging
 
 import zmq
 
-from PySide import QtCore
+from PySide2 import QtCore
 
 logger = logging.getLogger(__name__)
 

@@ -3,13 +3,13 @@
 import sys
 import logging
 
-from PySide import QtCore, QtGui
+from PySide2 import QtCore, QtWidgets
 
 from Guanandy.Student.Views import StudentView
 
 def start():
 
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
 
     #locale = QtCore.QLocale.system()
     #translator = QtCore.QTranslator()
@@ -20,7 +20,7 @@ def start():
     #if (translator.load(i18n_file, i18n_path)):
     #    app.installTranslator(translator)
 
-    QtGui.QApplication.setQuitOnLastWindowClosed(False)
+    QtWidgets.QApplication.setQuitOnLastWindowClosed(False)
 
     studentView = StudentView()
     studentView.show()

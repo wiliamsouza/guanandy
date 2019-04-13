@@ -2,7 +2,7 @@
 Signals used for protocol module.
 """
 
-from PySide import QtCore
+from PySide2 import QtCore
 
 
 class ProtocolSignal(QtCore.QObject):

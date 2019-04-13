@@ -1,4 +1,4 @@
-from PySide import QtCore, QtGui
+from PySide2 import QtCore, QtWidgets, QtGui
 
 from Guanandy import Controller
 from Guanandy.Util import EMPTY_VALUES
@@ -7,7 +7,7 @@ from Guanandy.Student.Models import TeacherModel
 from Guanandy.Protocol.Signals import protocolSignal
 
 
-class StudentView(QtGui.QWidget):
+class StudentView(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super(StudentView, self).__init__(parent)
@@ -29,57 +29,57 @@ class StudentView(QtGui.QWidget):
 
         # View definition
         self.setWindowTitle('Student Login')
-        self.gridLayout = QtGui.QGridLayout(self)
+        self.gridLayout = QtWidgets.QGridLayout(self)
 
-        self.label = QtGui.QLabel(self)
+        self.label = QtWidgets.QLabel(self)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setText('Enter your name')
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
 
-        self.studentName= QtGui.QLineEdit(self)
+        self.studentName= QtWidgets.QLineEdit(self)
         self.studentName.insert('Seu Buneco')
         self.gridLayout.addWidget(self.studentName, 1, 0, 1, 1)
 
-        self.label1 = QtGui.QLabel(self)
+        self.label1 = QtWidgets.QLabel(self)
         self.label1.setAlignment(QtCore.Qt.AlignCenter)
         self.label1.setText('Select a teacher name or class name')
         self.gridLayout.addWidget(self.label1, 2, 0, 1, 1)
 
-        self.teacherListView = QtGui.QListView(self)
+        self.teacherListView = QtWidgets.QListView(self)
         self.teacherListView.setModel(self.teacherModel)
         self.gridLayout.addWidget(self.teacherListView, 3, 0, 1, 1)
 
-        self.errorMessage = QtGui.QLabel(self)
+        self.errorMessage = QtWidgets.QLabel(self)
         self.errorMessage.setText('Error Message')
         self.errorMessage.clear()
         self.errorMessage.setAlignment(QtCore.Qt.AlignCenter)
         self.gridLayout.addWidget(self.errorMessage, 4, 0, 1, 1)
 
-        self.buttonBox = QtGui.QDialogButtonBox(self)
+        self.buttonBox = QtWidgets.QDialogButtonBox(self)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(
-                QtGui.QDialogButtonBox.Ok|QtGui.QDialogButtonBox.Cancel)
+                QtWidgets.QDialogButtonBox.Ok|QtWidgets.QDialogButtonBox.Cancel)
         self.buttonBox.accepted.connect(self.connect)
         self.buttonBox.rejected.connect(self.hide)
         self.gridLayout.addWidget(self.buttonBox, 5, 0, 1, 1)
 
         # System tray actions
-        self.loginAction = QtGui.QAction('&Login',
+        self.loginAction = QtWidgets.QAction('&Login',
                 self, triggered=self.show)
-        self.logoutAction = QtGui.QAction('&Disconnect from',
+        self.logoutAction = QtWidgets.QAction('&Disconnect from',
                 self, triggered=self.logout)
-        self.callAttentionAction = QtGui.QAction('&Call attention',
+        self.callAttentionAction = QtWidgets.QAction('&Call attention',
                 self, triggered=self.callAttention)
-        self.downloadProgressAction = QtGui.QAction('Download &progress',
+        self.downloadProgressAction = QtWidgets.QAction('Download &progress',
                 self, triggered=self.downloadProgress)
-        self.historyAction = QtGui.QAction('&History', self,
+        self.historyAction = QtWidgets.QAction('&History', self,
                 triggered=self.history)
-        self.aboutAction = QtGui.QAction('&About', self,
+        self.aboutAction = QtWidgets.QAction('&About', self,
                 triggered=self.about)
-        self.quitAction = QtGui.QAction('&Quit', self, triggered=self.close)
+        self.quitAction = QtWidgets.QAction('&Quit', self, triggered=self.close)
 
         # System tray menu
-        self.trayIconMenu = QtGui.QMenu(self)
+        self.trayIconMenu = QtWidgets.QMenu(self)
         self.trayIconMenu.addAction(self.loginAction)
         self.trayIconMenu.addAction(self.logoutAction)
         self.trayIconMenu.addSeparator()
@@ -91,7 +91,7 @@ class StudentView(QtGui.QWidget):
         self.trayIconMenu.addSeparator()
         self.trayIconMenu.addAction(self.quitAction)
 
-        self.sysTrayIcon = QtGui.QSystemTrayIcon(self)
+        self.sysTrayIcon = QtWidgets.QSystemTrayIcon(self)
         self.sysTrayIcon.setContextMenu(self.trayIconMenu)
         self.icon = QtGui.QIcon('Images/teacher22x22.png')
         self.sysTrayIcon.setIcon(self.icon)
@@ -115,7 +115,7 @@ class StudentView(QtGui.QWidget):
             protocolSignal.callAttention.emit(self.studentName.text())
 
     def shareFile(self, fileName, multicastIp, multicastPort):
-        print 'Teacher want to share {0} with you'.format(fileName)
+        print('Teacher want to share {0} with you'.format(fileName))
 
     def connect(self):
         studentName = self.studentName.text()
@@ -154,7 +154,7 @@ class StudentView(QtGui.QWidget):
             self.hide()
             event.ignore()
         else:
-            QtGui.qApp.setQuitOnLastWindowClosed(True)
+            QtWidgets.qApp.setQuitOnLastWindowClosed(True)
             self.broadcastClient.stop()
             self.subscriber.stop()
             self.request.stop()

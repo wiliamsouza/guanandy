@@ -72,12 +72,10 @@ def ipAddress():
         logger.debug('Trying to get ip address from /proc/net/route')
         routeFile  = open('/proc/net/route', 'r')
         for route in csv.DictReader(routeFile, delimiter='\t'):
-            if long(route['Destination'], 16) == 0:
+            if int(route['Destination']) == 0:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                 try:
-                    ip = socket.inet_ntoa(fcntl.ioctl(sock.fileno(),
-                        0x8915, struct.pack('256s',
-                            route['Iface'][:15]))[20:24])
+                    ip = socket.inet_ntoa(fcntl.ioctl(sock.fileno(), 0x8915, struct.pack('256s', bytes(route['Iface'][:15], 'utf-8')))[20:24])
                     if not ip.startswith('127'):
                         logger.debug('Ip {0} address found.'.format(ip))
                         return ip

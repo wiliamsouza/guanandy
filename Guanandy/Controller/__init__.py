@@ -11,7 +11,7 @@ import logging
 
 import zmq
 
-from PySide import QtCore
+from PySide2 import QtCore
 
 from Guanandy import Protocol
 from Guanandy.Protocol.Signals import protocolSignal
@@ -106,7 +106,7 @@ class Subscriber(QtCore.QThread):
         except:
             logger.critical('Subscriber connect error: %s' % error)
 
-        self.subscriber.setsockopt_unicode(zmq.SUBSCRIBE, u'')#self.name)
+        self.subscriber.setsockopt_str(zmq.SUBSCRIBE, u'')#self.name)
 
         while self.running:
             logger.debug('Subscriber waiting request...')
@@ -115,7 +115,7 @@ class Subscriber(QtCore.QThread):
 
             try:
                 getattr(self, request['action'])(request)
-            except AttributeError, error:
+            except AttributeError as error:
                 logger.warning('Subscriber received a bad request.')
 
     def shareFile(self, request):
@@ -226,7 +226,7 @@ class Reply(QtCore.QThread):
 
             try:
                 getattr(self, request['action'])(request)
-            except AttributeError, error:
+            except AttributeError as error:
                 logger.warning('Reply received a bad request.')
                 self.sendReply({'action': 'ERROR'})
 

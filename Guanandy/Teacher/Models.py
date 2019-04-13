@@ -1,4 +1,4 @@
-from PySide import QtCore
+from PySide2 import QtCore
 
 from Guanandy.Protocol.Signals import protocolSignal
 
@@ -15,7 +15,7 @@ class Student(QtCore.QObject):
         protocolSignal.shareFile.emit(self.name, fileName, multicastPort)
 
     changed = QtCore.Signal()
-    name = QtCore.Property(unicode, __getName, notify=changed)
+    name = QtCore.Property(str, __getName, notify=changed)
 
 
 class StudentModel(QtCore.QAbstractListModel):

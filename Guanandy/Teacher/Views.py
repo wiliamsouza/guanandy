@@ -1,4 +1,4 @@
-from PySide import QtCore, QtGui, QtUiTools
+from PySide2 import QtCore, QtGui, QtWidgets
 
 from Guanandy.Protocol.Signals import protocolSignal
 from Guanandy.Teacher.Models import StudentModel
@@ -9,31 +9,31 @@ from Guanandy import Controller
 from Guanandy import getVersion
 
 
-class LoginDialog(QtGui.QDialog):
+class LoginDialog(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super(LoginDialog, self).__init__(parent)
 
         self.setWindowTitle('Teacher Login')
 
-        self.gridLayout = QtGui.QGridLayout(self)
+        self.gridLayout = QtWidgets.QGridLayout(self)
 
-        self.label = QtGui.QLabel(self)
+        self.label = QtWidgets.QLabel(self)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setText('Enter your name or class name')
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
 
-        self.teacherName = QtGui.QLineEdit(self)
+        self.teacherName = QtWidgets.QLineEdit(self)
         self.teacherName.insert('Prof. Raimundo')
         self.gridLayout.addWidget(self.teacherName, 1, 0, 1, 1)
 
-        self.errorMessage = QtGui.QLabel(self)
+        self.errorMessage = QtWidgets.QLabel(self)
         self.errorMessage.clear()
         self.errorMessage.setAlignment(QtCore.Qt.AlignCenter)
         self.gridLayout.addWidget(self.errorMessage, 2, 0, 1, 1)
 
-        self.buttonBox = QtGui.QDialogButtonBox(self)
+        self.buttonBox = QtWidgets.QDialogButtonBox(self)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.accepted.connect(self.accept)
         self.gridLayout.addWidget(self.buttonBox, 3, 0, 1, 1)
 
@@ -53,29 +53,29 @@ class LoginDialog(QtGui.QDialog):
             super(LoginDialog, self).accept()
 
 
-class CloseDialog(QtGui.QDialog):
+class CloseDialog(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super(CloseDialog, self).__init__(parent)
 
         self.setWindowTitle('Close teacher')
 
-        self.gridLayout = QtGui.QGridLayout(self)
+        self.gridLayout = QtWidgets.QGridLayout(self)
 
-        self.label = QtGui.QLabel(self)
+        self.label = QtWidgets.QLabel(self)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setText('Do you really want to quit?')
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
 
-        self.buttonBox = QtGui.QDialogButtonBox(self)
+        self.buttonBox = QtWidgets.QDialogButtonBox(self)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(
-                QtGui.QDialogButtonBox.Yes|QtGui.QDialogButtonBox.No)
+                QtWidgets.QDialogButtonBox.Yes|QtWidgets.QDialogButtonBox.No)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.gridLayout.addWidget(self.buttonBox, 2, 0, 1, 1)
 
 
-class TeacherView(QtGui.QMainWindow):
+class TeacherView(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(TeacherView, self).__init__(parent)
 
@@ -94,37 +94,37 @@ class TeacherView(QtGui.QMainWindow):
 
         self.setWindowTitle('Guanandy Teacher')
 
-        self.guanandy = QtGui.QWidget(self)
+        self.guanandy = QtWidgets.QWidget(self)
 
         self.studentModel = StudentModel(self.guanandy)
 
-        self.sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding,
-                QtGui.QSizePolicy.Expanding)
+        self.sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding,
+                QtWidgets.QSizePolicy.Expanding)
         self.sizePolicy.setHorizontalStretch(0)
         self.sizePolicy.setVerticalStretch(0)
         self.sizePolicy.setHeightForWidth(
                 self.guanandy.sizePolicy().hasHeightForWidth())
         self.setSizePolicy(self.sizePolicy)
 
-        self.guanandyLayout = QtGui.QGridLayout(self.guanandy)
+        self.guanandyLayout = QtWidgets.QGridLayout(self.guanandy)
 
         # Header layout
-        self.headerLayout = QtGui.QHBoxLayout()
-        self.guanandyLogo = QtGui.QLabel(self.guanandy)
+        self.headerLayout = QtWidgets.QHBoxLayout()
+        self.guanandyLogo = QtWidgets.QLabel(self.guanandy)
         self.guanandyLogo.setText('')
         self.guanandyLogo.setPixmap(
                 QtGui.QPixmap('Images/guanandy32x180.png'))
         self.headerLayout.addWidget(self.guanandyLogo)
 
-        #self.headerSpacer = QtGui.QSpacerItem(40, 20,
-        #        QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        #self.headerSpacer = QtWidgets.QSpacerItem(40, 20,
+        #        QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         #self.headerLayout.addItem(self.headerSpacer)
 
         self.guanandyLayout.addLayout(self.headerLayout, 0, 0, 1, 1)
 
         # Commands layout
-        self.commandsLayout = QtGui.QHBoxLayout()
-        self.sendScreenButton = QtGui.QToolButton(self.guanandy)
+        self.commandsLayout = QtWidgets.QHBoxLayout()
+        self.sendScreenButton = QtWidgets.QToolButton(self.guanandy)
         self.sendScreenIcon = QtGui.QIcon()
         self.sendScreenIcon.addPixmap(
                 QtGui.QPixmap('Images/sendScreen.png'),
@@ -136,7 +136,7 @@ class TeacherView(QtGui.QMainWindow):
         self.sendScreenButton.setText('Send screen')
         self.commandsLayout.addWidget(self.sendScreenButton)
 
-        self.lockScreensButton = QtGui.QToolButton(self.guanandy)
+        self.lockScreensButton = QtWidgets.QToolButton(self.guanandy)
         self.lockScreensIcon = QtGui.QIcon()
         self.lockScreensIcon.addPixmap(
                 QtGui.QPixmap('Images/lockScreen.png'),
@@ -148,7 +148,7 @@ class TeacherView(QtGui.QMainWindow):
         self.lockScreensButton.setText('Lock screen')
         self.commandsLayout.addWidget(self.lockScreensButton)
 
-        self.shareFilesButton = QtGui.QToolButton(self.guanandy)
+        self.shareFilesButton = QtWidgets.QToolButton(self.guanandy)
         self.shareFilesIcon = QtGui.QIcon()
         self.shareFilesIcon.addPixmap(
                 QtGui.QPixmap('Images/shareFiles.png'),
@@ -161,7 +161,7 @@ class TeacherView(QtGui.QMainWindow):
         self.shareFilesButton.clicked.connect(self.shareFile)
         self.commandsLayout.addWidget(self.shareFilesButton)
 
-        self.shareWebPageButton = QtGui.QToolButton(self.guanandy)
+        self.shareWebPageButton = QtWidgets.QToolButton(self.guanandy)
         self.shareWebPageIcon = QtGui.QIcon()
         self.shareWebPageIcon.addPixmap(
                 QtGui.QPixmap('Images/shareWebPage.png'),
@@ -173,7 +173,7 @@ class TeacherView(QtGui.QMainWindow):
         self.shareWebPageButton.setText('Share web page')
         self.commandsLayout.addWidget(self.shareWebPageButton)
 
-        self.sendMessageButton = QtGui.QToolButton(self.guanandy)
+        self.sendMessageButton = QtWidgets.QToolButton(self.guanandy)
         self.sendMessageIcon = QtGui.QIcon()
         self.sendMessageIcon.addPixmap(
                 QtGui.QPixmap('Images/sendMessage.png'),
@@ -185,7 +185,7 @@ class TeacherView(QtGui.QMainWindow):
         self.sendMessageButton.setText('Send message')
         self.commandsLayout.addWidget(self.sendMessageButton)
 
-        self.openApplicationButton = QtGui.QToolButton(self.guanandy)
+        self.openApplicationButton = QtWidgets.QToolButton(self.guanandy)
         self.openApplicationIcon = QtGui.QIcon()
         self.openApplicationIcon.addPixmap(
                 QtGui.QPixmap('Images/openApplication.png'),
@@ -197,7 +197,7 @@ class TeacherView(QtGui.QMainWindow):
         self.openApplicationButton.setText('Open application')
         self.commandsLayout.addWidget(self.openApplicationButton)
 
-        self.turnOffStudentsButton = QtGui.QToolButton(self.guanandy)
+        self.turnOffStudentsButton = QtWidgets.QToolButton(self.guanandy)
         self.turnOffStudentsIcon = QtGui.QIcon()
         self.turnOffStudentsIcon.addPixmap(
                 QtGui.QPixmap('Images/turnOffStudents.png'),
@@ -211,17 +211,17 @@ class TeacherView(QtGui.QMainWindow):
         self.guanandyLayout.addLayout(self.commandsLayout, 1, 0, 1, 1)
 
         # Students layout
-        self.studentsLayout = QtGui.QVBoxLayout()
-        self.studentListView = QtGui.QListView(self.guanandy)
+        self.studentsLayout = QtWidgets.QVBoxLayout()
+        self.studentListView = QtWidgets.QListView(self.guanandy)
         self.studentListView.setModel(self.studentModel)
-        self.studentListView.setSelectionMode(QtGui.QAbstractItemView.MultiSelection)
+        self.studentListView.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.studentsLayout.addWidget(self.studentListView)
         self.guanandyLayout.addLayout(self.studentsLayout, 3, 0, 1, 1)
 
         # Footer layout
-        self.footerLayout = QtGui.QHBoxLayout()
+        self.footerLayout = QtWidgets.QHBoxLayout()
 
-        self.historyButton = QtGui.QToolButton(self.guanandy)
+        self.historyButton = QtWidgets.QToolButton(self.guanandy)
         self.historyIcon = QtGui.QIcon()
         self.historyIcon.addPixmap(
                 QtGui.QPixmap('Images/history.png'),
@@ -233,19 +233,19 @@ class TeacherView(QtGui.QMainWindow):
         self.historyButton.setText('History')
         self.footerLayout.addWidget(self.historyButton)
 
-        self.footerLabel = QtGui.QLabel(self.guanandy)
+        self.footerLabel = QtWidgets.QLabel(self.guanandy)
         self.footerLabel.setText('Version:')
         self.footerLayout.addWidget(self.footerLabel)
 
-        self.systemVersion = QtGui.QLabel(self.guanandy)
+        self.systemVersion = QtWidgets.QLabel(self.guanandy)
         self.systemVersion.setText(getVersion())
         self.footerLayout.addWidget(self.systemVersion)
 
-        self.footerSpacer = QtGui.QSpacerItem(32, 32,
-                QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.footerSpacer = QtWidgets.QSpacerItem(32, 32,
+                QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.footerLayout.addItem(self.footerSpacer)
 
-        self.exitSystemButton = QtGui.QToolButton(self.guanandy)
+        self.exitSystemButton = QtWidgets.QToolButton(self.guanandy)
         self.exitSystemIcon = QtGui.QIcon()
         self.exitSystemIcon.addPixmap(
                 QtGui.QPixmap('Images/exit.png'),
@@ -285,7 +285,7 @@ class TeacherView(QtGui.QMainWindow):
     def shareFile(self):
         studentsIndex = self.studentListView.selectedIndexes()
         if studentsIndex not in Util.EMPTY_VALUES:
-            fileName = QtGui.QFileDialog.getOpenFileName(self,
+            fileName = QtWidgets.QFileDialog.getOpenFileName(self,
                     'Choose a file to share', Util.homeDirectory(), None)[0]
             if fileName not in Util.EMPTY_VALUES:
                 for index in studentsIndex:
@@ -293,15 +293,15 @@ class TeacherView(QtGui.QMainWindow):
                     if student:
                         student.shareFile(fileName, self.multicastPort)
                     else:
-                        print 'No student selected'
+                        print('No student selected')
             else:
-                print 'Share file canceled'
+                print('Share file canceled')
         else:
-            QtGui.QMessageBox.warning(self, 'Select a student',
+            QtWidgets.QMessageBox.warning(self, 'Select a student',
                     'You must select at least on student.')
 
     def callAttention(self, studentName):
-        QtGui.QMessageBox.information(self, 'Student message',
+        QtWidgets.QMessageBox.information(self, 'Student message',
                 'Student {0} call attetion!'.format(studentName))
 
     def closeEvent(self, event):
